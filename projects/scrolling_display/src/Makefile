@@ -2,6 +2,7 @@ CROSS_COMPILE=
 
 CC=$(CROSS_COMPILE)gcc
 CFLAGS=-c -g -rdynamic -funwind-tables -Wall -I../include
+# CFLAGS=-c -g -rdynamic -funwind-tables -I../include
 LDFLAGS=  -lpthread -lrt
  
 STRIP=$(CROSS_COMPILE)strip
