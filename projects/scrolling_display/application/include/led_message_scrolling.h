@@ -1,5 +1,5 @@
-#ifndef __scroll_data_h__
-#define __scroll_data_h__
+#ifndef __led_message_scrolling_h__
+#define __led_message_scrolling_h__
 
 #include <datatypes.h>
 
