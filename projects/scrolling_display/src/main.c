@@ -8,5 +8,6 @@ int main (void) {
     
     ScrollMessage ("A");
     
+    printf ("\n");
     return 0;
 }

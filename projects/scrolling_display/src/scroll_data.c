@@ -2,7 +2,7 @@
 #include <scroll_data.h>
 #include <string.h>
 
-const u16 ASCII_Lookup_8x8[][8] ={
+static const u16 ASCII_Lookup_8x8[][8] ={
     {0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000},
     {0b00000100, 0b00000100, 0b00000100, 0b00000100, 0b00000100, 0b00000100, 0b00000000, 0b00000100},
     {0b00001010, 0b00001010, 0b00001010, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000},
@@ -100,10 +100,6 @@ const u16 ASCII_Lookup_8x8[][8] ={
     {0b00000000, 0b00000000, 0b00000000, 0b00001010, 0b00011110, 0b00010100, 0b00000000, 0b00000000}
 };
 
-
-#define SHIFT_STEP 1
-#define SCROLL_SPEED 1
-
 static LED_DISPLAY_BUFFER Display_Buffer [LED_DIGIT_HIGHT] = {{0}};
 
 void DisplayLedMessage (LED_DISPLAY_BUFFER *led_msg) {
@@ -134,20 +130,19 @@ void ScrollMessage (s8 *message) {
     msg_len = strlen(message);
     
     for (msg_count = 0x00; msg_count < msg_len; msg_count++) {
-        for (scroll = 0x00; scroll < (LED_DIGIT_WIDTH / SHIFT_STEP); scroll++) {
-            for (shift_ammount = 0x00; shift_ammount < LED_DIGIT_HIGHT; shift_ammount++) {
+        for (scroll = 0x00; scroll < (LED_DIGIT_WIDTH / SCROLL_SHIFT_STEP); scroll++) {
+            for (shift_ammount = 0x00; shift_ammount < LED_DIGIT_WIDTH; shift_ammount++) {
                 store_lookup = ASCII_Lookup_8x8[(message [msg_count] - 32)][shift_ammount];
-                Display_Buffer [shift_ammount].row = ((Display_Buffer [shift_ammount].row << SHIFT_STEP) | (store_lookup >> ((LED_DIGIT_WIDTH - SHIFT_STEP) - (scroll*SHIFT_STEP))));
+                Display_Buffer [shift_ammount].row = ((Display_Buffer [shift_ammount].row << SCROLL_SHIFT_STEP) | (store_lookup >> ((LED_DIGIT_WIDTH - SCROLL_SHIFT_STEP) - (scroll*SCROLL_SHIFT_STEP))));
             }
             for (loop_count = 0x00; loop_count < SCROLL_SPEED; loop_count ++) {
-                printf ("Display Message:: ");
+                printf ("\nDisplay Message:: ");
                 for (shift_ammount = 0x00; shift_ammount < LED_DIGIT_HIGHT; shift_ammount++) {
                     DisplayLedMessage (&Display_Buffer [shift_ammount]);
                     Move_To_NextLine ();
                     DelayMs (1);
                 }
                 Reset_Line ();
-                printf ("\n");
             }
         }        
     }
