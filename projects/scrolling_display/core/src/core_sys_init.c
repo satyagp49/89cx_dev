@@ -4,7 +4,7 @@
 #include <led_message_scrolling.h>
 #include <arch_xyz.h>
 
-int main (void) {
+void main (void) {
     
     controller_init ();
     
@@ -15,7 +15,6 @@ int main (void) {
     UpdateScrollMessage ("ABC");
     
     printf ("\n");
-    return 0;
 }
 
 
