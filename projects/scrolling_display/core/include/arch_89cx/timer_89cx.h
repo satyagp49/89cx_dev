@@ -11,7 +11,7 @@ typedef enum timer_number {
 
 typedef struct timer_config {
     TIMER_NUMBER timer;
-    u32 time_out;
+    uint time_out;
     void (*isr_handler)(void);
 }TIMER_CONFIG;
 

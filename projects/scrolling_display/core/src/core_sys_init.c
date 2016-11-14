@@ -1,45 +1,49 @@
-
-
 #include <stdio.h>
 #include <led_message_scrolling.h>
 #include <arch_xyz.h>
 
-u32 count = 0x00;
-void toggle_led (void) {
-    if (count == 100) {
-        count = 0x00;
-        if (LED == 0) {
-            LED = 1;
-        }
-        else {
-            LED = 0;
-        }
-    }
-    count ++;
-}
+void timer_isr_testing (void);
 
 void main (void) {
-    
-    TIMER_CONFIG timer_config;
-    
+        
     controller_init ();
     
     peripheral_init ();
-    LED = 0;
-    timer_config.timer = TIMER_0;
-    timer_config.time_out = 10;
-    timer_config.isr_handler = toggle_led;
-    timer_init (&timer_config);
 
     //LedScrollInit ();
     
+    //timer_isr_testing();
     
     //UpdateScrollMessage ("ABC");
-    while (1);
+    
+    // timer delay testing
+    /*while (1)
+    {
+        DelayMs (1000);
+        LED = 0x00;
+        DelayMs (1000);
+        LED = 0x01;
+    } */
     
     printf ("\n");
 }
 
+void toggle_led (void) {
+    if (LED == 0) {
+        LED = 1;
+    }
+    else {
+        LED = 0;
+    }
+}
+void timer_isr_testing () {
+    TIMER_CONFIG timer_config;
+    LED = 0;
+    timer_config.timer = TIMER_0;
+    timer_config.time_out = 50;
+    timer_config.isr_handler = toggle_led;
+    timer_init (&timer_config);
+}
 
 #if 0
 

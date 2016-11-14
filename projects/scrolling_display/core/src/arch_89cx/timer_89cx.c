@@ -3,17 +3,18 @@
 #include <REG51.H>
 
 void (*timer0_isr_callback)();
+uint Timer0Timeout = 0x00;
 
 void timer_init_89cx (TIMER_CONFIG *timer_config) {
-
     switch (timer_config-> timer) {
         case TIMER_0: {	
             EA = 0; /* disable interrupts */
         	TR0 = 0; /* stop timer 0 */
         	TMOD &= ~0x0F; /* clear timer 0 mode bits */
         	TMOD |= 0x01; /* put timer 0 into 16-bit no prescale */
-        	TL0 = (TIMER0_COUNT & 0x00FF);
-        	TH0 = (TIMER0_COUNT >> 8);
+            Timer0Timeout = timer_config-> time_out;
+        	TL0 = 0x18;
+        	TH0 = 0xFC;
         	PT0 = 0; /* set low priority for timer 0 */
         	ET0 = 1; /* enable timer 0 interrupt */
         	TR0 = 1; /* start timer 0 */
@@ -32,25 +33,36 @@ void timer_init_89cx (TIMER_CONFIG *timer_config) {
 
 void timer0_isr (void) interrupt 1
 {
-    uint itmp;
+    static uint timer0timeout = 0x00;
     /*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     Stop Timer 0, adjust the timer 0 counter so that
     we get another interrupt in 10ms, and restart the
     timer.
     =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-*/
     TR0 = 0; /* stop timer 0 */
-    itmp = TIMER0_COUNT + TL0 + (TH0<<8);
-    TL0 = itmp;
-    TH0 = itmp >> 8;
-    
-    timer0_isr_callback ();
-    
+	TL0 = 0x18;
+	TH0 = 0xFC;
+
+    timer0timeout++;
+    if (Timer0Timeout <= timer0timeout) 
+    {
+        timer0_isr_callback ();
+        timer0timeout = 0x00;
+    }
+
     TR0 = 1; /* start timer 0 for next cycle s*/
 }
 
-void DelayMs_89cx (unsigned int x) { // delays x msec (at fosc=11.0592MHz)
-    u8 j=0;
-	while (x-- > 0) {
-		for (j=0; j<125; j++){;}
+void DelayMs_89cx (u16 ms) { // delays x msec (at fosc=11.0592MHz)
+    u16 count=0;
+    while(count < ms) {
+        TMOD=0x10;	//16-bit timer1 selected
+        TH1=0xFC;	// 0XFC18 for 1ms Loading high byte in TH
+        TL1=0x18;	// Loaded low byte in TL
+        TR1=1;		// Running the timer
+        while (!TF1);   //Checking the timer flag register if it is not equal to 1 
+        TR1 = 0;	  // If TF1=1 stop the timer
+        TF1 = 0;	  // Clear the Timer Flag bit for next calculation
+        count++;
     }
 }
