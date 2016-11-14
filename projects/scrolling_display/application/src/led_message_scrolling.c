@@ -133,7 +133,7 @@ inline void Reset_Line (void) {
     printf ("----------\n");
 }
 
-#define LED_DISPLAY_NUMBER_OF_DIGITS 4
+#define LED_DISPLAY_NUMBER_OF_DIGITS 1
 
 void ScrollMessage (s8 *message) {
     u8 digit_count = 0x00;
@@ -161,8 +161,8 @@ void ScrollMessage (s8 *message) {
         number_of_segments = (LED_DISPLAY_NUMBER_OF_DIGITS % msg_len);
         segment_iteration = (msg_len / LED_DISPLAY_NUMBER_OF_DIGITS);
 
-        for (; segment_iteration > -1; segment_iteration --, offset += number_of_segments) {
-            for (digit_hight = 0x00; (digit_hight < LED_DIGIT_HIGHT) && (offset < msg_len); digit_hight ++) {
+        for (; (segment_iteration > -1) && (offset < msg_len); segment_iteration --, offset += number_of_segments) {
+            for (digit_hight = 0x00; (digit_hight < LED_DIGIT_HIGHT); digit_hight ++) {
                 for (msg_count = offset, digit_count = 0x00; (digit_count < number_of_segments) && (msg_count < msg_len); digit_count ++, msg_count ++) {            
                     store_lookup = ASCII_Lookup_8x8[(message [msg_count] - 32)][digit_hight];                
                     DisplayLedMessage (store_lookup);
