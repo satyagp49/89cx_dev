@@ -10,7 +10,7 @@ void main (void) {
     
     peripheral_init ();
     
-    timer_init ();
+    LedScrollInit ();
     
     UpdateScrollMessage ("ABC");
     

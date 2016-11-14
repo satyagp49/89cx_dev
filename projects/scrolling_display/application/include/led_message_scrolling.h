@@ -3,6 +3,7 @@
 
 #include <datatypes.h>
 
+void LedScrollInit (void);
 void UpdateScrollMessage (s8 *message);
 
 #endif

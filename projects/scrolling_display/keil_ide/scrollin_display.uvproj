@@ -366,6 +366,11 @@
               <FileType>1</FileType>
               <FilePath>..\core\src\arch_89cx\arch_89cx.c</FilePath>
             </File>
+            <File>
+              <FileName>timer_89cx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\core\src\arch_89cx\timer_89cx.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

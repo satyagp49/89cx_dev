@@ -3,6 +3,7 @@
 #include <string.h>
 #include <arch_xyz.h>
 
+#if 0
 static const u16 ASCII_Lookup_8x8[][8] ={
     {0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000},
     {0b00000100, 0b00000100, 0b00000100, 0b00000100, 0b00000100, 0b00000100, 0b00000000, 0b00000100},
@@ -101,7 +102,14 @@ static const u16 ASCII_Lookup_8x8[][8] ={
     {0b00000000, 0b00000000, 0b00000000, 0b00001010, 0b00011110, 0b00010100, 0b00000000, 0b00000000}
 };
 
+#endif
+static void ThreadScrollMessage (void);
+
 static s8 ScrollMessage [LED_MESSAGE_LEN] = {0};
+
+void LedScrollInit (void) {
+    timer_init (ThreadScrollMessage);
+}
 
 void UpdateScrollMessage (s8 *message) {
     if (strlen (message) > LED_MESSAGE_LEN) {
@@ -126,7 +134,7 @@ static void ThreadScrollMessage (void) {
     if ((LED_DISPLAY_NUMBER_OF_DIGITS / msg_len) > 0x00) {
         for (digit_hight = 0x00; digit_hight < LED_DIGIT_HIGHT; digit_hight ++) {
             for (msg_count = 0x00; msg_count < msg_len; msg_count ++) {            
-                store_lookup = ASCII_Lookup_8x8[(ScrollMessage [msg_count] - 32)][digit_hight];                
+                //store_lookup = ASCII_Lookup_8x8[(ScrollMessage [msg_count] - 32)][digit_hight];                
                 LedSendMessage (store_lookup);
             }
             LedMoveToNextLine ();
@@ -140,7 +148,7 @@ static void ThreadScrollMessage (void) {
         for (; (segment_iteration > -1) && (offset < msg_len); segment_iteration --, offset += number_of_segments) {
             for (digit_hight = 0x00; (digit_hight < LED_DIGIT_HIGHT); digit_hight ++) {
                 for (msg_count = offset, digit_count = 0x00; (digit_count < number_of_segments) && (msg_count < msg_len); digit_count ++, msg_count ++) {            
-                    store_lookup = ASCII_Lookup_8x8[(ScrollMessage [msg_count] - 32)][digit_hight];                
+                    //store_lookup = ASCII_Lookup_8x8[(ScrollMessage [msg_count] - 32)][digit_hight];                
                     LedSendMessage (store_lookup);
                 }
                 LedMoveToNextLine ();

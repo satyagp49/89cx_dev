@@ -8,16 +8,6 @@ void peripheral_init_89cx (void) {
     
 }
     
-void timer_init_89cx (void) {
-
-    
-}
-
-void DelayMs_89cx (u16 ms) {
-    
-}
-
-
 void LedSendMessage_89cx (u8 led_msg) {
     u8 count = 0x00;
     

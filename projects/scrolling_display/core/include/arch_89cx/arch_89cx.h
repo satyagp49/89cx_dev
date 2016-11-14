@@ -2,6 +2,7 @@
 #define __arch_89cx_h__
 
 #include <datatypes.h>
+#include <timer_89cx.h>
 
 #define LED_MESSAGE_LEN 48
 
@@ -11,9 +12,6 @@
 
 void controller_init_89cx (void);
 void peripheral_init_89cx (void);
-
-void timer_init_89cx (void);
-void DelayMs_89cx (u16 ms);
 
 void LedSendMessage_89cx (u8 led_msg);
 void LedMoveToNextLine_89cx (void);
