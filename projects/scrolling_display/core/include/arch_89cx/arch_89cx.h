@@ -3,7 +3,7 @@
 
 #include <datatypes.h>
 #include <timer_89cx.h>
-#include <REG51.H>
+#include <REG51_89EV516RD.H>
 
 sbit LED = P3^3;
 

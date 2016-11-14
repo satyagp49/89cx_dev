@@ -17,13 +17,13 @@ void main (void) {
     //UpdateScrollMessage ("ABC");
     
     // timer delay testing
-    /*while (1)
+    while (1)
     {
-        DelayMs (1000);
+        DelayMs (50);
         LED = 0x00;
-        DelayMs (1000);
+        DelayMs (200);
         LED = 0x01;
-    } */
+    }             
     
     printf ("\n");
 }

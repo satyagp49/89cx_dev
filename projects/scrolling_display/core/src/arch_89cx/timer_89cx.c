@@ -1,6 +1,5 @@
 
 #include <arch_89cx.h>
-#include <REG51.H>
 
 void (*timer0_isr_callback)();
 uint Timer0Timeout = 0x00;
@@ -56,13 +55,13 @@ void timer0_isr (void) interrupt 1
 void DelayMs_89cx (u16 ms) { // delays x msec (at fosc=11.0592MHz)
     u16 count=0;
     while(count < ms) {
-        TMOD=0x10;	//16-bit timer1 selected
-        TH1=0xFC;	// 0XFC18 for 1ms Loading high byte in TH
-        TL1=0x18;	// Loaded low byte in TL
-        TR1=1;		// Running the timer
-        while (!TF1);   //Checking the timer flag register if it is not equal to 1 
-        TR1 = 0;	  // If TF1=1 stop the timer
-        TF1 = 0;	  // Clear the Timer Flag bit for next calculation
+        CTR2 = 0;	//16-bit timer2 selected
+        TH2=0xFC;	// 0XFC18 for 1ms Loading high byte in TH
+        TL2=0x18;	// Loaded low byte in TL
+        TR2=1;		// Running the timer
+        while (!TF2);   //Checking the timer flag register if it is not equal to 1 
+        TR2 = 0;	  // If TF1=1 stop the timer
+        TF2 = 0;	  // Clear the Timer Flag bit for next calculation
         count++;
     }
 }
