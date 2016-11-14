@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <led_message_scrolling.h>
-#include <arch_89cx.h>
+#include <arch_xyz.h>
 
 int main (void) {
     
@@ -12,7 +12,7 @@ int main (void) {
     
     timer_init ();
     
-    ScrollMessage ("ABCDEF");
+    UpdateScrollMessage ("ABC");
     
     printf ("\n");
     return 0;

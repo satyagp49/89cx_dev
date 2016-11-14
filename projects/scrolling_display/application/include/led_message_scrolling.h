@@ -3,8 +3,6 @@
 
 #include <datatypes.h>
 
-
-
-void ScrollMessage (s8 *message);
+void UpdateScrollMessage (s8 *message);
 
 #endif

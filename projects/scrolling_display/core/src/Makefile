@@ -7,7 +7,7 @@ LDFLAGS=  -lpthread -lrt
  
 STRIP=$(CROSS_COMPILE)strip
 
-SOURCES= main.c ../../application/src/led_message_scrolling.c ./arch_89cx/sys_init_89cx.c
+SOURCES= main.c ../../application/src/led_message_scrolling.c ./arch_89cx/arch_89cx.c
 
 OBJECTS=$(SOURCES:.c=.o)
 

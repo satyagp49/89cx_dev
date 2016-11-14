@@ -1,6 +1,7 @@
 
 #include <led_message_scrolling.h>
 #include <string.h>
+#include <arch_xyz.h>
 
 static const u16 ASCII_Lookup_8x8[][8] ={
     {0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000},
@@ -100,42 +101,17 @@ static const u16 ASCII_Lookup_8x8[][8] ={
     {0b00000000, 0b00000000, 0b00000000, 0b00001010, 0b00011110, 0b00010100, 0b00000000, 0b00000000}
 };
 
-#define LED_DIGIT_WIDTH     8
-#define LED_DIGIT_HIGHT     8
+static s8 ScrollMessage [LED_MESSAGE_LEN] = {0};
 
-// #define LED_DISPLAY_ROW_SIZE (LED_DISPLAY_NUMBER_OF_DIGITS * LED_DIGIT_WIDTH)
-
-// #define SCROLL_SHIFT_STEP 1
-// #define SCROLL_SPEED 1
-
-// typedef struct {
-//     unsigned row: LED_DISPLAY_ROW_SIZE;
-// }LED_DISPLAY_BUFFER;
-
-void DisplayLedMessage (u8 led_msg) {
-    u8 count = 0x00;
-    
-    for (count = 0x00; count < LED_DIGIT_WIDTH; count ++) {
-        printf ("%x", (led_msg >> count) & 0x01);
+void UpdateScrollMessage (s8 *message) {
+    if (strlen (message) > LED_MESSAGE_LEN) {
+        return ;
     }
-    printf ("\t");
+    
+    strncpy(ScrollMessage, message, strlen (message));
 }
 
-inline void DelayMs (u16 ms) {
-
-}
-
-inline void Move_To_NextLine (void) {
-    printf (">>>>\n");
-}
-
-inline void Reset_Line (void) {
-    printf ("----------\n");
-}
-
-#define LED_DISPLAY_NUMBER_OF_DIGITS 1
-
-void ScrollMessage (s8 *message) {
+static void ThreadScrollMessage (void) {
     u8 digit_count = 0x00;
     u8 number_of_segments = 0x00;
     s8 segment_iteration = 0x00;
@@ -145,17 +121,17 @@ void ScrollMessage (s8 *message) {
     u8 digit_hight = 0x00;
     u16 store_lookup = 0x00;
     
-    msg_len = strlen(message);
+    msg_len = strlen(ScrollMessage);
 
     if ((LED_DISPLAY_NUMBER_OF_DIGITS / msg_len) > 0x00) {
         for (digit_hight = 0x00; digit_hight < LED_DIGIT_HIGHT; digit_hight ++) {
             for (msg_count = 0x00; msg_count < msg_len; msg_count ++) {            
-                store_lookup = ASCII_Lookup_8x8[(message [msg_count] - 32)][digit_hight];                
-                DisplayLedMessage (store_lookup);
+                store_lookup = ASCII_Lookup_8x8[(ScrollMessage [msg_count] - 32)][digit_hight];                
+                LedSendMessage (store_lookup);
             }
-            Move_To_NextLine ();
+            LedMoveToNextLine ();
         }
-        Reset_Line ();
+        LedResetLine ();
     }
     else {
         number_of_segments = (LED_DISPLAY_NUMBER_OF_DIGITS % msg_len);
@@ -164,12 +140,13 @@ void ScrollMessage (s8 *message) {
         for (; (segment_iteration > -1) && (offset < msg_len); segment_iteration --, offset += number_of_segments) {
             for (digit_hight = 0x00; (digit_hight < LED_DIGIT_HIGHT); digit_hight ++) {
                 for (msg_count = offset, digit_count = 0x00; (digit_count < number_of_segments) && (msg_count < msg_len); digit_count ++, msg_count ++) {            
-                    store_lookup = ASCII_Lookup_8x8[(message [msg_count] - 32)][digit_hight];                
-                    DisplayLedMessage (store_lookup);
+                    store_lookup = ASCII_Lookup_8x8[(ScrollMessage [msg_count] - 32)][digit_hight];                
+                    LedSendMessage (store_lookup);
                 }
-                Move_To_NextLine ();
+                LedMoveToNextLine ();
             }
-            Reset_Line ();
+            LedResetLine ();
+            DelayMs (100);
         }
     }
 }
