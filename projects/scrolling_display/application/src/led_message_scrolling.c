@@ -133,21 +133,20 @@ inline void Reset_Line (void) {
     printf ("----------\n");
 }
 
-#define LED_DISPLAY_NUMBER_OF_DIGITS 1
+#define LED_DISPLAY_NUMBER_OF_DIGITS 4
 
 void ScrollMessage (s8 *message) {
-    u8 msg_len = 0x00;
-    u8 msg_count = 0x00;
-    u8 digit_hight = 0x00;
-    u16 store_lookup = 0x00;
     u8 digit_count = 0x00;
     u8 number_of_segments = 0x00;
     s8 segment_iteration = 0x00;
     u8 offset = 0x00;
+    u8 msg_len = 0x00;
+    u8 msg_count = 0x00;
+    u8 digit_hight = 0x00;
+    u16 store_lookup = 0x00;
     
     msg_len = strlen(message);
 
-    printf ("\nDisplay Message:: \n");
     if ((LED_DISPLAY_NUMBER_OF_DIGITS / msg_len) > 0x00) {
         for (digit_hight = 0x00; digit_hight < LED_DIGIT_HIGHT; digit_hight ++) {
             for (msg_count = 0x00; msg_count < msg_len; msg_count ++) {            
@@ -163,8 +162,8 @@ void ScrollMessage (s8 *message) {
         segment_iteration = (msg_len / LED_DISPLAY_NUMBER_OF_DIGITS);
 
         for (; segment_iteration > -1; segment_iteration --, offset += number_of_segments) {
-            for (digit_hight = 0x00; digit_hight < LED_DIGIT_HIGHT; digit_hight ++) {
-                for (msg_count = offset,digit_count = 0x00; (digit_count < number_of_segments) && (msg_count < msg_len); digit_count ++, msg_count ++) {            
+            for (digit_hight = 0x00; (digit_hight < LED_DIGIT_HIGHT) && (offset < msg_len); digit_hight ++) {
+                for (msg_count = offset, digit_count = 0x00; (digit_count < number_of_segments) && (msg_count < msg_len); digit_count ++, msg_count ++) {            
                     store_lookup = ASCII_Lookup_8x8[(message [msg_count] - 32)][digit_hight];                
                     DisplayLedMessage (store_lookup);
                 }
