@@ -3,6 +3,9 @@
 
 #include <datatypes.h>
 #include <timer_89cx.h>
+#include <REG51.H>
+
+sbit LED = P3^3;
 
 #define LED_MESSAGE_LEN 48
 

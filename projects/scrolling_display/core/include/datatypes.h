@@ -11,4 +11,7 @@ typedef long s32;
 typedef short int s16;
 typedef char s8;
 
+typedef unsigned int uint;
+typedef int sint;
+
 #endif
