@@ -48,7 +48,7 @@ void timer0_isr (void) interrupt 1
 }
 
 void DelayMs_89cx (u16 ms) { // delays x msec (at fosc=11.0592MHz)
-    u16 count=0;
+    u16 count = 0;
     while(count < ms) {
         CTR2 = 0;	//16-bit timer2 selected
         TH2=0xFC;	// 0XFC18 for 1ms Loading high byte in TH
@@ -57,6 +57,6 @@ void DelayMs_89cx (u16 ms) { // delays x msec (at fosc=11.0592MHz)
         while (!TF2);   //Checking the timer flag register if it is not equal to 1 
         TR2 = 0;	  // If TF1=1 stop the timer
         TF2 = 0;	  // Clear the Timer Flag bit for next calculation
-        count++;
+        count += 2;
     }
 }

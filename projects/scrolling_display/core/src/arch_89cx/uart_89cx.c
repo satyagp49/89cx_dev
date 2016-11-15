@@ -1,11 +1,18 @@
 
 #include <arch_89cx.h>
+#include <string.h>
 
 static u8 UartRxBuffer [UART_RX_BUFFER_SIZE] = {0x00};
 static u8 UartGetCount = 0x00;
 static u8 UartPutCount = 0x00;
 static u8 IsUartBufferEmpty = 0x01;
 
+void clear_uart_buffer (void) {
+    UartGetCount = 0x00;
+    UartPutCount = 0x00;
+    IsUartBufferEmpty = 0x01;
+    memset (UartRxBuffer, 0x00, UART_RX_BUFFER_SIZE);
+}
 void serial_isr (void) interrupt 4
 {
     EA = 0;
@@ -88,6 +95,39 @@ u16 UartGetStr (u8 *msg_str, u16 len) {
 	return count;
 }	
 
+u16 UartGetStrTimeoutSec (u8 *msg_str, u16 len, u8 time_out) {
+	u16 count = 0x00;
+    s16 timeout_loop = (time_out * 10);
+
+    clear_uart_buffer ();
+
+    while ((timeout_loop > 0) && (IsUartBufferEmpty)) {
+        DelayMs_89cx (100);
+        timeout_loop --;
+    }
+    if (timeout_loop <= 0x00) {
+        return 0;
+    }
+    
+    count = 0x00;
+
+	do {
+		if (!IsUartBufferEmpty) {
+			msg_str [count] = UartGetChar ();
+            if ((msg_str [count] == '\r') || (msg_str [count] == '\n')) {
+                msg_str [count] = '\0';
+                return count;
+            }
+            count ++;
+		}
+	} while ((!IsUartBufferEmpty) && (count < len));
+    if (count < len) {
+        msg_str [count] = 0x00;
+    }
+	return count;
+}	
+
 void UartSendStr (u8 *str) {
     printf ("%s\r\n", str);
 }
+

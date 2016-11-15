@@ -21,6 +21,7 @@ void EnableInterrupts_89cx (void);
 
 #define SendCommand_89cx UartSendStr
 #define ReceiveCommand_89cx UartGetStr
+#define ReceiveCommandTimeoutSec_89cx UartGetStrTimeoutSec
 
 void LedSendMessage_89cx (u8 led_msg);
 void LedMoveToNextLine_89cx (void);

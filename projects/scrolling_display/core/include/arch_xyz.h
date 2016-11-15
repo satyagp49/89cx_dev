@@ -15,9 +15,12 @@
 
 #define SendCommand SendCommand_89cx
 #define ReceiveCommand ReceiveCommand_89cx
+#define ReceiveCommandTimeoutSec ReceiveCommandTimeoutSec_89cx
 
 #define LedSendMessage LedSendMessage_89cx
 #define LedMoveToNextLine LedMoveToNextLine_89cx
 #define LedResetLine LedResetLine_89cx
+
+#define DBG_MSG printf
 
 #endif
