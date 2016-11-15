@@ -1,43 +1,49 @@
 #include <stdio.h>
-#include <led_message_scrolling.h>
-#include <arch_xyz.h>
 #include <string.h>
 
-void timer_isr_testing (void);
-
-#define MSG_LEN     30
+#include <arch_xyz.h>
+#include <led_message_scrolling.h>
+#include <command_mode.h>
 
 void main (void) {
-    u8 msg_buff [MSG_LEN] = {0x00};
      
     controller_init ();
     
     peripheral_init ();
 
     //LedScrollInit ();
-    
-    //timer_isr_testing();
-    
+        
     //UpdateScrollMessage ("ABC");
     
+    while (1) {
+        CommandMode ();
+    }
+    printf ("\n");
+}
+
+#if 0
+void timer_testing (void) {
     // timer delay testing
-    /*while (1)
+    while (1)
     {
         DelayMs (50);
         LED_INDICATION = 0x00;
         DelayMs (200);
         LED_INDICATION = 0x01;
-    }*/             
-    
+    }             
+}
+void uart_testing (void) {
+#define MSG_LEN     30
+    u8 msg_buff [MSG_LEN] = {0x00};
+
+    //uart testing
     while (1) {
         if (UartGetStr (msg_buff, MSG_LEN) > 0) {
             printf ("%s", msg_buff);
             memset (msg_buff, 0x00, MSG_LEN);
         }
     }
-    printf ("\n");
 }
-
 void toggle_led (void) {
     if (LED_INDICATION == 0) {
         LED_INDICATION = 1;
@@ -54,6 +60,7 @@ void timer_isr_testing () {
     timer_config.isr_handler = toggle_led;
     timer_init (&timer_config);
 }
+#endif
 
 #if 0
 

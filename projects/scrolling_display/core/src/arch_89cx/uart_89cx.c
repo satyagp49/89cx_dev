@@ -74,7 +74,12 @@ u16 UartGetStr (u8 *msg_str, u16 len) {
             DelayMs_89cx (2);   // wait till whole message to come
         }
 		if (!IsUartBufferEmpty) {
-			msg_str [count ++] = UartGetChar ();
+			msg_str [count] = UartGetChar ();
+            if ((msg_str [count] == '\r') || (msg_str [count] == '\n')) {
+                msg_str [count] = '\0';
+                return count;
+            }
+            count ++;
 		}
 	} while ((!IsUartBufferEmpty) && (count < len));
     if (count < len) {
@@ -82,3 +87,7 @@ u16 UartGetStr (u8 *msg_str, u16 len) {
     }
 	return count;
 }	
+
+void UartSendStr (u8 *str) {
+    printf ("%s\r\n", str);
+}
