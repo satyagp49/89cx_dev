@@ -1,7 +1,8 @@
+#ifndef __timer_89cx_h__
+#define __timer_89cx_h__
 
 #include <datatypes.h>
 
-#define TIMER0_COUNT 0xFF00 /* 10000h - ((11,059,200 Hz / (12 * FREQ)) - 17) */
 typedef enum timer_number {
     TIMER_0,
     TIMER_1,
@@ -17,3 +18,5 @@ typedef struct timer_config {
 
 void timer_init_89cx (TIMER_CONFIG *timer_config);
 void DelayMs_89cx (u16 ms);
+
+#endif

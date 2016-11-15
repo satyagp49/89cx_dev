@@ -5,8 +5,11 @@
 
 void timer_isr_testing (void);
 
+#define MSG_LEN     30
+
 void main (void) {
-    u8 msg_str = 0x00;    
+    u8 msg_buff [MSG_LEN] = {0x00};
+     
     controller_init ();
     
     peripheral_init ();
@@ -26,12 +29,11 @@ void main (void) {
         LED_INDICATION = 0x01;
     }*/             
     
-    while (1)
-    {
-        msg_str = uart_get_char ();
-		if ((msg_str != 0) && (msg_str != 0xFF)) {
-			printf ("%c\r", msg_str);
-		}
+    while (1) {
+        if (UartGetStr (msg_buff, MSG_LEN) > 0) {
+            printf ("%s", msg_buff);
+            memset (msg_buff, 0x00, MSG_LEN);
+        }
     }
     printf ("\n");
 }

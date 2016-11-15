@@ -3,6 +3,7 @@
 
 #include <datatypes.h>
 #include <timer_89cx.h>
+#include <uart_89cx.h>
 #include <REG51_89EV516RD.H>
 
 sbit LED_INDICATION = P3^3;

@@ -33,11 +33,6 @@ void timer_init_89cx (TIMER_CONFIG *timer_config) {
 void timer0_isr (void) interrupt 1
 {
     static uint timer0timeout = 0x00;
-    /*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    Stop Timer 0, adjust the timer 0 counter so that
-    we get another interrupt in 10ms, and restart the
-    timer.
-    =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-*/
     TR0 = 0; /* stop timer 0 */
 	TL0 = 0x18;
 	TH0 = 0xFC;
