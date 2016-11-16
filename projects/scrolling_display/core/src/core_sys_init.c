@@ -2,8 +2,8 @@
 #include <string.h>
 
 #include <arch_xyz.h>
-#include <led_message_scrolling.h>
 #include <command_mode.h>
+#include <led_message_scrolling.h>
 
 void main (void) {
      
@@ -11,14 +11,11 @@ void main (void) {
     
     peripheral_init ();
 
-    //LedScrollInit ();
+    LedScrollInit ();
         
-    //UpdateScrollMessage ("ABC");
-    
     while (1) {
         CommandMode ();
     }
-    printf ("\n");
 }
 
 #if 0

@@ -105,7 +105,7 @@ const u16 ASCII_Lookup_8x8[][8] ={
 
 static void ThreadScrollMessage (void);
 
-static s8 ScrollMessage [LED_MESSAGE_LEN] = {0};
+static s8 ScrollMessage [LED_MESSAGE_LEN] = "Please Update Message";
 
 void LedScrollInit (void) {
     TIMER_CONFIG timer_config;
@@ -115,7 +115,7 @@ void LedScrollInit (void) {
     timer_init (&timer_config);
 }
 
-void UpdateScrollMessage (s8 *message) {
+void UpdateScrollMessage (const s8 *message) {
     if (strlen (message) > LED_MESSAGE_LEN) {
         return ;
     }

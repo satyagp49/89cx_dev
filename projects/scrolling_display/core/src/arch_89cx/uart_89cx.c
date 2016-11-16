@@ -127,7 +127,7 @@ u16 UartGetStrTimeoutSec (u8 *msg_str, u16 len, u8 time_out) {
 	return count;
 }	
 
-void UartSendStr (u8 *str) {
+void UartSendStr (const u8 *str) {
     printf ("%s\r\n", str);
 }
 

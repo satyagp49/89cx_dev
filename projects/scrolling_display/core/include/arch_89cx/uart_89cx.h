@@ -9,7 +9,7 @@ void UartInit (void);
 u8 UartGetChar (void);
 u16 UartGetStr (u8 *msg_str, u16 len);
 u16 UartGetStrTimeoutSec (u8 *msg_str, u16 len, u8 time_out);
-void UartSendStr (u8 *str);
+void UartSendStr (const u8 *str);
 
 
 #endif
