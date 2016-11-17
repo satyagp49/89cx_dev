@@ -1,0 +1,111 @@
+A51 MACRO ASSEMBLER  8X8_LED                                                              07/26/2006 11:30:45 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.00
+OBJECT MODULE PLACED IN 8x8 LED.OBJ
+ASSEMBLER INVOKED BY: e:\Program Files\Keil\C51\BIN\A51.EXE 8x8 LED.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+  0031                 1     RS_CNT  EQU             31H
+  0034                 2     DSP_CNT EQU             34H                             ;显示模式
+0000                   3                     ORG             00H
+0000 753100            4     START:  MOV             RS_CNT,#00H
+0003 753400            5                     MOV             DSP_CNT,#00H    ;显示模式初始值
+0006 90000E            6                     MOV             DPTR,#SWITCH    ;设置程序跳转表首地址
+0009 E534              7     A0:             MOV             A,DSP_CNT
+000B 2534              8                     ADD             A,DSP_CNT               ;双字节指令,偏移量乘2
+000D 73                9                     JMP             @A+DPTR                 ;根据显示模式值跳转
+000E 8006             10     SWITCH: SJMP    DSP_0                   ;程序跳转表
+0010 801E             11                     SJMP    DSP_1
+0012 8036             12                     SJMP    DSP_2
+0014 804E             13                     SJMP    DSP_3
+                      14     
+0016 758000           15     DSP_0:  MOV             P0,#00H                 ;显示模式0,行线全部置0
+0019 7401             16                     MOV             A,#01H                  ;列扫描码初值
+001B F5B0             17             L0:     MOV             P3,A                    ;输出显示
+001D 12007F           18                     LCALL   DELAY
+0020 23               19                     RL              A                               ;列扫描码移位
+0021 0531             20                     INC             RS_CNT
+0023 A831             21                     MOV             R0,RS_CNT
+0025 B818F3           22                     CJNE    R0,#24,L0               ;模式0显示完毕?
+0028 0534             23                     INC             DSP_CNT                 ;显示下一模式
+002A 753100           24                     MOV             RS_CNT,#00H
+002D 020009           25                     LJMP    A0
+0030 758000           26     DSP_1:  MOV             P0,#00H                 ;显示模式1,行线全部置0
+0033 7480             27                     MOV             A,#80H                  ;列扫描码初值
+0035 F5B0             28             L1:     MOV             P3,A                    ;输出显示
+0037 12007F           29                     LCALL   DELAY
+003A 03               30                     RR              A                               ;列扫描码移位
+003B 0531             31                     INC             RS_CNT
+003D A831             32                     MOV             R0,RS_CNT
+003F B818F3           33                     CJNE    R0,#24,L1               ;模式1显示完毕?
+0042 0534             34                     INC             DSP_CNT                 ;显示下一模式
+0044 753100           35                     MOV             RS_CNT,#00H
+0047 020009           36                     LJMP    A0
+004A 75B0FF           37     DSP_2:  MOV             P3,#0FFH                ;显示模式2,列线全部置1
+004D 747F             38                     MOV             A,#7FH                  ;行扫描码初值
+004F F580             39             L2:     MOV             P0,A                    ;输出显示
+0051 12007F           40                     LCALL   DELAY
+0054 03               41                     RR              A                               ;行扫描码移位
+0055 0531             42                     INC             RS_CNT
+0057 A831             43                     MOV             R0,RS_CNT
+0059 B818F3           44                     CJNE    R0,#24,L2               ;模式2显示完毕?
+005C 0534             45                     INC             DSP_CNT                 ;显示下一模式
+005E 753100           46                     MOV             RS_CNT,#00H
+0061 020009           47                     LJMP    A0
+0064 75B0FF           48     DSP_3:  MOV             P3,#0FFH                ;显示模式3,列线全部置1
+0067 74FE             49                     MOV             A,#0FEH                 ;行扫描码初值
+0069 F580             50             L3:     MOV             P0,A                    ;输出显示
+006B 12007F           51                     LCALL   DELAY
+006E 23               52                     RL              A                               ;行扫描码移位
+006F 0531             53                     INC             RS_CNT
+0071 A831             54                     MOV             R0,RS_CNT
+0073 B818F3           55                     CJNE    R0,#24,L3               ;模式3显示完毕?
+0076 753400           56                     MOV             DSP_CNT,#00H    ;显示下一模式
+0079 753100           57                     MOV             RS_CNT,#00H
+007C 020009           58                     LJMP    A0
+A51 MACRO ASSEMBLER  8X8_LED                                                              07/26/2006 11:30:45 PAGE     2
+
+                      59     
+007F 7D0A             60     DELAY:  MOV             R5,#10                  ;延时子程序
+0081 7E14             61     D1:             MOV             R6,#20
+0083 7FF8             62     D2:             MOV             R7,#248
+0085 DFFE             63                     DJNZ    R7,$
+0087 DEFA             64                     DJNZ    R6,D2
+0089 DDF6             65                     DJNZ    R5,D1
+008B 22               66                     RET
+                      67     
+                      68                     END
+A51 MACRO ASSEMBLER  8X8_LED                                                              07/26/2006 11:30:45 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+A0 . . . . . . . .  C ADDR   0009H   A   
+D1 . . . . . . . .  C ADDR   0081H   A   
+D2 . . . . . . . .  C ADDR   0083H   A   
+DELAY. . . . . . .  C ADDR   007FH   A   
+DSP_0. . . . . . .  C ADDR   0016H   A   
+DSP_1. . . . . . .  C ADDR   0030H   A   
+DSP_2. . . . . . .  C ADDR   004AH   A   
+DSP_3. . . . . . .  C ADDR   0064H   A   
+DSP_CNT. . . . . .  N NUMB   0034H   A   
+L0 . . . . . . . .  C ADDR   001BH   A   
+L1 . . . . . . . .  C ADDR   0035H   A   
+L2 . . . . . . . .  C ADDR   004FH   A   
+L3 . . . . . . . .  C ADDR   0069H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+RS_CNT . . . . . .  N NUMB   0031H   A   
+START. . . . . . .  C ADDR   0000H   A   
+SWITCH . . . . . .  C ADDR   000EH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
