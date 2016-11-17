@@ -27,11 +27,11 @@ void send_data(unsigned int temp){
   }
   // Apply clock on ST_Clk
   ST_Clk = 1;
-  ST_Clk = 0;
-
+  ST_Clk = 0;  
 }
 //unsigned short dummyCharData [8] = { 0x0C, 0x1E, 0x33, 0x33, 0x3F, 0x33, 0x33, 0x00};//{0x0E, 0x11, 0x11, 0x11, 0x1F, 0x11, 0x11, 0x11};//{0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11};
-unsigned int DisplayBuffer[]={0,0,0,0,0,0,0,0};
+unsigned short dummyCharData [8] = {/*0, 0, 0, 0, 0, 0, 0, 0,*/ 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01};
+unsigned int DisplayBuffer[]={/*0xC3, 0xC3, 0xC3, 0xC3, 0xC3, 0xC3, 0xC3, 0xC3*/ 0, 0, 0, 0, 0, 0, 0, 0};
 unsigned int speed;
 short  l, k, ShiftAmount, scroll, temp, shift_step=1, StringLength;
 char message[]="ABCD123";
@@ -45,7 +45,9 @@ void main() {
 				for (ShiftAmount=0; ShiftAmount<8; ShiftAmount++){
 					index = message[k];
 					temp = CharData[index][ShiftAmount];
-					DisplayBuffer[ShiftAmount] = (DisplayBuffer[ShiftAmount] << shift_step)| (temp >> ((8-shift_step)-scroll*shift_step));
+                    //temp = dummyCharData[ShiftAmount];
+                    DisplayBuffer[ShiftAmount] = (DisplayBuffer[ShiftAmount] >> shift_step) | (temp << (15-(scroll*shift_step)));
+					//DisplayBuffer[ShiftAmount] = (DisplayBuffer[ShiftAmount] << shift_step) | (temp >> ((8-shift_step)-scroll*shift_step));
 				}
 				speed = 1;
 				for(l=0; l<speed;l++){
@@ -53,7 +55,7 @@ void main() {
 						send_data(DisplayBuffer[count]);
 						select_line = (0xFF & ~(0x01 << count));
 						P3 = select_line;
-						delay_ms(20);
+						delay_ms(10);
 					}  // i
 				} // l
 			} // scroll
