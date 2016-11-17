@@ -32,17 +32,16 @@ void display_data(unsigned char temp){
 }
 void main()
 {   
-    unsigned char count = 0x00, select_line = 0xFE, flag = 0x00;
+    unsigned char count = 0x00, select_line = 0x00;
     unsigned char ascii_data [] = {0x0E, 0x11, 0x11, 0x11, 0x1F, 0x11, 0x11, 0x11};
-    display_data (0x11);
+
 	while(1)
 	{
-        select_line = 0xFE;
         for (count = 0x00; count < 8; count ++) {		
             display_data (ascii_data [count]);
+            select_line = (0xFF & ~(0x01 << count));
             P3 = select_line;
             delay_ms(10);
-            select_line <<= 1;
         }
 
 	} 
