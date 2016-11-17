@@ -1,0 +1,101 @@
+C51 COMPILER V9.02   SCROLLLED                                                             11/17/2016 18:42:05 PAGE 1   
+
+
+C51 COMPILER V9.02, COMPILATION OF MODULE SCROLLLED
+OBJECT MODULE PLACED IN ScrollLED.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ScrollLED.c LARGE BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <REG51.H>
+   2          #include <string.h>
+   3          sbit Serial_Data = P0^1;
+   4          sbit SH_Clk = P0^0;
+   5          sbit ST_Clk = P0^2;
+   6           
+   7          void delay_ms(unsigned int x)    // delays x msec (at fosc=11.0592MHz)
+   8          {
+   9   1              unsigned char j=0;
+  10   1              while(x-- > 0)
+  11   1              {
+  12   2                      for (j=0; j<125; j++){;}
+  13   2              }
+  14   1      }
+  15          
+  16          void send_data(unsigned int temp){
+  17   1       unsigned int Mask = 0x0001, t, Flag;
+  18   1        for (t=0; t<16; t++){
+  19   2         Flag = temp & Mask;
+  20   2         if(Flag==0) Serial_Data = 0;
+  21   2         else Serial_Data = 1;
+  22   2         SH_Clk = 1;
+  23   2         SH_Clk = 0;
+  24   2         Mask = Mask << 1;
+  25   2        }
+  26   1        // Apply clock on ST_Clk
+  27   1        ST_Clk = 1;
+  28   1        ST_Clk = 0;
+  29   1      
+  30   1      }
+  31          
+  32          /* CharData is a two dimensional constant array that holds the 8-bit column values of
+  33             individual rows for ASCII characters that are to be displayed on a 8x8 matrix format.
+  34          */
+  35          const unsigned short CharData[][8] ={
+  36              {0x0E, 0x11, 0x11, 0x11, 0x1F, 0x11, 0x11, 0x11},
+  37              {0x1E, 0X11, 0X11, 0x1E, 0x11, 0x11, 0x11, 0x1E},
+  38              {0x07, 0x08, 0x10, 0x10, 0x10, 0x10, 0x08, 0x07},
+  39          };
+  40          
+  41          unsigned int DisplayBuffer[]={0,0,0,0,0,0,0,0};
+  42          unsigned int speed;
+  43          short i, l, k, ShiftAmount, scroll, temp, shift_step=1, StringLength;
+  44          char message[]="ABC";
+  45          char index;
+  46          void main() {
+  47   1       unsigned char select_line = 0x00;
+  48   1       StringLength = strlen(message) ;
+  49   1       do {
+  50   2       for (k=0; k<StringLength; k++){
+  51   3        for (scroll=0; scroll<(8/shift_step); scroll++) {
+  52   4         for (ShiftAmount=0; ShiftAmount<8; ShiftAmount++){
+  53   5          index = message[k];
+  54   5          temp = CharData[0][ShiftAmount];
+  55   5          DisplayBuffer[ShiftAmount] = (DisplayBuffer[ShiftAmount] << shift_step)| (temp >> ((8-shift_step)-scro
+C51 COMPILER V9.02   SCROLLLED                                                             11/17/2016 18:42:05 PAGE 2   
+
+             -ll*shift_step));
+  56   5         }
+  57   4      
+  58   4        speed = 1;
+  59   4        for(l=0; l<speed;l++){
+  60   5      
+  61   5         for (i=0; i<8; i++) {
+  62   6          send_data(DisplayBuffer[i]);
+  63   6          select_line = (0xFF & ~(0x01 << i));
+  64   6          P3 = select_line;
+  65   6          delay_ms(10);
+  66   6         }  // i
+  67   5        //CD4017_Rst = 1;
+  68   5        //CD4017_Rst = 0;
+  69   5        } // l
+  70   4        } // scroll
+  71   3       } // k
+  72   2      
+  73   2       } while(1);
+  74   1      
+  75   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    568    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =     87       1
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
