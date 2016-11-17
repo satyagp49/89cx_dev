@@ -168,7 +168,7 @@
         </Utilities>
         <Target51>
           <Target51Misc>
-            <MemoryModel>0</MemoryModel>
+            <MemoryModel>2</MemoryModel>
             <RTOS>0</RTOS>
             <RomSize>2</RomSize>
             <DataHold>0</DataHold>
@@ -347,14 +347,14 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
-              <FileName>main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\main.c</FilePath>
-            </File>
-            <File>
               <FileName>STARTUP.A51</FileName>
               <FileType>2</FileType>
               <FilePath>.\STARTUP.A51</FilePath>
+            </File>
+            <File>
+              <FileName>ScrollLED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ScrollLED.c</FilePath>
             </File>
           </Files>
         </Group>
