@@ -1,4 +1,14 @@
 
+#define LED_DISPLAY_WIDTH 8
+#define LED_DISPLAY_HIEGHT 8
+
+#define LED_DISPLAY_DIGITS 2
+#define LED_DISPLAY_ROW_SIZE (LED_DISPLAY_DIGITS * LED_DISPLAY_WIDTH)
+
+typedef struct led_replica {
+    unsigned row: LED_DISPLAY_ROW_SIZE;
+}LED_MEM_REPLICA;
+
 /* CharData is a two dimensional constant array that holds the 8-bit column values of
    individual rows for ASCII characters that are to be displayed on a 8x8 matrix format.
 */
