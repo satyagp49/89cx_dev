@@ -29,6 +29,8 @@ void send_data(LED_MEM_REPLICA temp){
   ST_Clk = 0;  
 }
 
+code unsigned char DisplayRAM [LED_RAM_SIZE] = {0x00};
+
 unsigned short int DisplayBuffer [LED_DISPLAY_DIGITS][LED_DISPLAY_HIEGHT] = {{0x00}};
 unsigned int speed;
 short  l, k, m, ShiftAmount, scroll, temp, shift_step=1, StringLength;
