@@ -29,9 +29,9 @@ void send_data(LED_MEM_REPLICA temp){
   ST_Clk = 0;  
 }
 
-LED_MEM_REPLICA DisplayBuffer [LED_DISPLAY_HIEGHT] = {{0x00}};
+unsigned short int DisplayBuffer [LED_DISPLAY_DIGITS][LED_DISPLAY_HIEGHT] = {{0x00}};
 unsigned int speed;
-short  l, k, ShiftAmount, scroll, temp, shift_step=1, StringLength;
+short  l, k, m, ShiftAmount, scroll, temp, shift_step=1, StringLength;
 char message[]="ABCD123";
 char index;
 void main() {
@@ -42,8 +42,13 @@ void main() {
 			for (scroll=0; scroll<(LED_DISPLAY_WIDTH/shift_step); scroll++) {
 				for (ShiftAmount=0; ShiftAmount<LED_DISPLAY_HIEGHT; ShiftAmount++){
 					index = message[k];
+                    for (l = 0x00; l < LED_DISPLAY_DIGITS; l ++) {
+                        for (m = 0x00; m < LED_DISPLAY_HIEGHT; m ++) {
+                            DisplayBuffer [l][m] >>= 
+                        }                                   
+                    }
 					temp = CharData[index][ShiftAmount];
-                    DisplayBuffer[ShiftAmount].row = (DisplayBuffer[ShiftAmount].row >> shift_step) | (temp << ((LED_DISPLAY_ROW_SIZE -1) - (scroll*shift_step)));
+                    DisplayBuffer[ShiftAmount] = (DisplayBuffer[ShiftAmount] >> shift_step) | (temp << ((LED_DISPLAY_ROW_SIZE -1) - (scroll*shift_step)));
 					//DisplayBuffer[ShiftAmount] = (DisplayBuffer[ShiftAmount] << shift_step) | (temp >> ((8-shift_step)-scroll*shift_step));
 				}
 				speed = 1;
