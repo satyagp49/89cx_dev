@@ -23,13 +23,14 @@ void delay_ms(unsigned int x)	 // delays x msec (at fosc=11.0592MHz)
     printf ("\t");
 }
 
-DISPLAY_WIDTH DisplayBuffer [LED_DISPLAY_HIEGHT] [LED_MAX_DISPLAY_DIGITS] = {{0x00}};
+
+DISPLAY_WIDTH DisplayBuffer [LED_DISPLAY_HIEGHT] [LED_DISPLAY_DIGITS] = {{0x00}};
 unsigned int speed;
 short  l, k, m, ShiftAmount, scroll, temp, shift_step=1, StringLength;
 char message[]="ABC123";
-short index_data;
+char index_data;
 int main() {
-    unsigned char count, shift;
+    unsigned char select_line = 0x00, count, shift;
     unsigned int backup;
     StringLength = strlen(message) ;
     //do {
@@ -64,6 +65,7 @@ int main() {
                         for (m = 0x00; m < LED_DISPLAY_DIGITS; m++) {
                             send_data(DisplayBuffer[count][m]);
                         }
+                        select_line = (0xFF & ~(0x01 << count));
                         printf ("\n");
                         delay_ms(1);
                     }
