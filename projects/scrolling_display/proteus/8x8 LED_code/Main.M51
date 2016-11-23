@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        11/17/2016  23:20:33  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        11/23/2016  15:15:24  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
@@ -14,6 +14,7 @@ INPUT MODULES INCLUDED:
   C:\KEIL\C51\LIB\C51L.LIB (?C_INIT)
   C:\KEIL\C51\LIB\C51L.LIB (?C?COPY)
   C:\KEIL\C51\LIB\C51L.LIB (?C?SIDIV)
+  C:\KEIL\C51\LIB\C51L.LIB (?C?OFFXADD)
   C:\KEIL\C51\LIB\C51L.LIB (STRLEN)
   C:\KEIL\C51\LIB\C51L.LIB (?C?CLDPTR)
   C:\KEIL\C51\LIB\C51L.LIB (?C?UIDIV)
@@ -30,19 +31,19 @@ LINK MAP OF MODULE:  Main (?C_STARTUP)
             IDATA   0008H     0001H     UNIT         ?STACK
 
             * * * * * * *  X D A T A   M E M O R Y  * * * * * * *
-            XDATA   0000H     0029H     UNIT         ?XD?SCROLLLED
-            XDATA   0029H     0004H     UNIT         _XDATA_GROUP_
+            XDATA   0000H     002BH     UNIT         ?XD?SCROLLLED
+            XDATA   002BH     0007H     UNIT         _XDATA_GROUP_
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-            CODE    0003H     0800H     UNIT         ?CO?SCROLLLED
-            CODE    0803H     01FEH     UNIT         ?PR?MAIN?SCROLLLED
-            CODE    0A01H     019AH     UNIT         ?C?LIB_CODE
-            CODE    0B9BH     008CH     UNIT         ?C_C51STARTUP
-            CODE    0C27H     0038H     UNIT         ?PR?SEND_DATA?SCROLLLED
-            CODE    0C5FH     0024H     UNIT         ?C_INITSEG
-            CODE    0C83H     001BH     UNIT         ?PR?_DELAY_MS?SCROLLLED
-            CODE    0C9EH     0015H     UNIT         ?PR?_STRLEN?STRLEN
+            CODE    0003H     0850H     UNIT         ?CO?SCROLLLED
+            CODE    0853H     0247H     UNIT         ?PR?MAIN?SCROLLLED
+            CODE    0A9AH     01A6H     UNIT         ?C?LIB_CODE
+            CODE    0C40H     008CH     UNIT         ?C_C51STARTUP
+            CODE    0CCCH     0035H     UNIT         ?PR?SEND_DATA?SCROLLLED
+            CODE    0D01H     0024H     UNIT         ?C_INITSEG
+            CODE    0D25H     001BH     UNIT         ?PR?_DELAY_MS?SCROLLLED
+            CODE    0D40H     0015H     UNIT         ?PR?_STRLEN?STRLEN
 
 
 
@@ -56,16 +57,16 @@ SEGMENT                           XDATA_GROUP
   +--> ?PR?MAIN?SCROLLLED
   +--> ?C_INITSEG
 
-?PR?MAIN?SCROLLLED              0029H    0002H
+?PR?MAIN?SCROLLLED              002BH    0005H
   +--> ?PR?_STRLEN?STRLEN
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/23/2016  15:15:24  PAGE 2
+
+
   +--> ?CO?SCROLLLED
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/17/2016  23:20:33  PAGE 2
-
-
   +--> ?PR?SEND_DATA?SCROLLLED
   +--> ?PR?_DELAY_MS?SCROLLLED
 
-?PR?SEND_DATA?SCROLLLED         002BH    0002H
+?PR?SEND_DATA?SCROLLLED         0030H    0002H
 
 
 
@@ -75,7 +76,7 @@ SYMBOL TABLE OF MODULE:  Main (?C_STARTUP)
   ----------------------------------
 
   -------         MODULE        ?C_STARTUP
-  C:0B9BH         SEGMENT       ?C_C51STARTUP
+  C:0C40H         SEGMENT       ?C_C51STARTUP
   I:0008H         SEGMENT       ?STACK
   C:0000H         PUBLIC        ?C_STARTUP
   D:00E0H         SYMBOL        ACC
@@ -85,7 +86,7 @@ SYMBOL TABLE OF MODULE:  Main (?C_STARTUP)
   N:0000H         SYMBOL        IBPSTACK
   N:0100H         SYMBOL        IBPSTACKTOP
   N:0080H         SYMBOL        IDATALEN
-  C:0B9EH         SYMBOL        IDATALOOP
+  C:0C43H         SYMBOL        IDATALOOP
   N:0000H         SYMBOL        PBPSTACK
   N:0100H         SYMBOL        PBPSTACKTOP
   N:0000H         SYMBOL        PDATALEN
@@ -94,18 +95,18 @@ SYMBOL TABLE OF MODULE:  Main (?C_STARTUP)
   N:0000H         SYMBOL        PPAGEENABLE
   D:00A0H         SYMBOL        PPAGE_SFR
   D:0081H         SYMBOL        SP
-  C:0B9BH         SYMBOL        STARTUP1
+  C:0C40H         SYMBOL        STARTUP1
   N:0000H         SYMBOL        XBPSTACK
   N:0000H         SYMBOL        XBPSTACKTOP
   N:0000H         SYMBOL        XDATALEN
   N:0000H         SYMBOL        XDATASTART
   C:0000H         LINE#         126
-  C:0B9BH         LINE#         133
-  C:0B9DH         LINE#         134
-  C:0B9EH         LINE#         135
-  C:0B9FH         LINE#         136
-  C:0BA1H         LINE#         185
-  C:0BA4H         LINE#         196
+  C:0C40H         LINE#         133
+  C:0C42H         LINE#         134
+  C:0C43H         LINE#         135
+  C:0C44H         LINE#         136
+  C:0C46H         LINE#         185
+  C:0C49H         LINE#         196
   -------         ENDMOD        ?C_STARTUP
 
   -------         MODULE        SCROLLLED
@@ -115,108 +116,125 @@ SYMBOL TABLE OF MODULE:  Main (?C_STARTUP)
   X:0000H         PUBLIC        scroll
   X:0002H         PUBLIC        speed
   B:0080H.0       PUBLIC        SH_Clk
-  X:0004H         PUBLIC        index
+  X:0004H         PUBLIC        index_data
   B:0080H.2       PUBLIC        ST_Clk
-  C:0803H         PUBLIC        main
-  C:0C27H         PUBLIC        send_data
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/17/2016  23:20:33  PAGE 3
+  C:0853H         PUBLIC        main
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/23/2016  15:15:24  PAGE 3
 
 
+  C:0CCCH         PUBLIC        send_data
   X:0005H         PUBLIC        temp
   X:0007H         PUBLIC        DisplayBuffer
+  C:0803H         PUBLIC        DisplayRAM
   X:0017H         PUBLIC        shift_step
   B:0080H.1       PUBLIC        Serial_Data
-  C:0C83H         PUBLIC        _delay_ms
+  C:0D25H         PUBLIC        _delay_ms
   X:0019H         PUBLIC        StringLength
   X:001BH         PUBLIC        message
   X:0023H         PUBLIC        k
   X:0025H         PUBLIC        l
-  X:0027H         PUBLIC        ShiftAmount
+  X:0027H         PUBLIC        m
+  X:0029H         PUBLIC        ShiftAmount
   C:0003H         PUBLIC        CharData
   -------         PROC          _DELAY_MS
   D:0006H         SYMBOL        x
   -------         DO            
   D:0005H         SYMBOL        j
   -------         ENDDO         
-  C:0C83H         LINE#         9
-  C:0C83H         LINE#         10
-  C:0C83H         LINE#         11
-  C:0C83H         LINE#         12
-  C:0C92H         LINE#         13
-  C:0C92H         LINE#         14
-  C:0C9DH         LINE#         15
-  C:0C9DH         LINE#         16
+  C:0D25H         LINE#         9
+  C:0D25H         LINE#         10
+  C:0D25H         LINE#         11
+  C:0D25H         LINE#         12
+  C:0D34H         LINE#         13
+  C:0D34H         LINE#         14
+  C:0D3FH         LINE#         15
+  C:0D3FH         LINE#         16
   -------         ENDPROC       _DELAY_MS
   -------         PROC          SEND_DATA
-  X:002BH         SYMBOL        temp
+  X:0030H         SYMBOL        temp
   -------         DO            
   D:0004H         SYMBOL        t
   D:0006H         SYMBOL        Flag
   -------         ENDDO         
-  C:0C27H         LINE#         18
-  C:0C27H         LINE#         20
-  C:0C2AH         LINE#         21
-  C:0C43H         LINE#         22
-  C:0C49H         LINE#         23
-  C:0C4BH         LINE#         24
-  C:0C4DH         LINE#         25
-  C:0C4FH         LINE#         26
-  C:0C5AH         LINE#         28
-  C:0C5CH         LINE#         29
-  C:0C5EH         LINE#         30
+  C:0CCCH         LINE#         18
+  C:0CCCH         LINE#         20
+  C:0CCFH         LINE#         21
+  C:0CE5H         LINE#         22
+  C:0CEBH         LINE#         23
+  C:0CEDH         LINE#         24
+  C:0CEFH         LINE#         25
+  C:0CF1H         LINE#         26
+  C:0CFCH         LINE#         28
+  C:0CFEH         LINE#         29
+  C:0D00H         LINE#         30
   -------         ENDPROC       SEND_DATA
   -------         PROC          MAIN
   -------         DO            
-  X:0029H         SYMBOL        select_line
-  X:002AH         SYMBOL        count
+  X:002BH         SYMBOL        select_line
+  X:002CH         SYMBOL        count
+  X:002DH         SYMBOL        shift
+  X:002EH         SYMBOL        backup
   -------         ENDDO         
-  C:0803H         LINE#         37
-  C:0803H         LINE#         38
-  C:0808H         LINE#         39
-  C:0819H         LINE#         40
-  C:0819H         LINE#         41
-  C:083BH         LINE#         42
-  C:0867H         LINE#         43
-  C:0883H         LINE#         44
-  C:0899H         LINE#         45
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/17/2016  23:20:33  PAGE 4
+  C:0853H         LINE#         39
+  C:0853H         LINE#         40
+  C:0858H         LINE#         42
+  C:0869H         LINE#         43
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/23/2016  15:15:24  PAGE 4
 
 
-  C:08D4H         LINE#         46
-  C:0948H         LINE#         48
-  C:0959H         LINE#         49
-  C:0961H         LINE#         50
-  C:097DH         LINE#         51
-  C:098CH         LINE#         52
-  C:09ABH         LINE#         53
-  C:09C0H         LINE#         54
-  C:09C2H         LINE#         55
-  C:09C9H         LINE#         56
-  C:09CFH         LINE#         57
-  C:09DFH         LINE#         58
-  C:09F0H         LINE#         59
+  C:0869H         LINE#         44
+  C:088BH         LINE#         45
+  C:08B7H         LINE#         46
+  C:08D3H         LINE#         47
+  C:08E9H         LINE#         48
+  C:0920H         LINE#         49
+  C:0922H         LINE#         50
+  C:0922H         LINE#         51
+  C:0922H         LINE#         52
+  C:0922H         LINE#         53
+  C:0922H         LINE#         61
+  C:0926H         LINE#         64
+  C:0926H         LINE#         66
+  C:09A3H         LINE#         67
+  C:09B4H         LINE#         69
+  C:09BDH         LINE#         70
+  C:09DCH         LINE#         71
+  C:09E1H         LINE#         72
+  C:09E8H         LINE#         73
+  C:0A1DH         LINE#         74
+  C:0A3CH         LINE#         75
+  C:0A51H         LINE#         76
+  C:0A53H         LINE#         77
+  C:0A5AH         LINE#         78
+  C:0A67H         LINE#         79
+  C:0A78H         LINE#         80
+  C:0A89H         LINE#         81
   -------         ENDPROC       MAIN
   -------         ENDMOD        SCROLLLED
 
   -------         MODULE        ?C?COPY
-  C:0AD1H         PUBLIC        ?C?COPY
+  C:0B6AH         PUBLIC        ?C?COPY
   -------         ENDMOD        ?C?COPY
 
   -------         MODULE        ?C?SIDIV
-  C:0AF7H         PUBLIC        ?C?SIDIV
+  C:0B90H         PUBLIC        ?C?SIDIV
   -------         ENDMOD        ?C?SIDIV
 
+  -------         MODULE        ?C?OFFXADD
+  C:0BC6H         PUBLIC        ?C?OFFXADD
+  -------         ENDMOD        ?C?OFFXADD
+
   -------         MODULE        STRLEN
-  C:0C9EH         PUBLIC        _STRLEN
+  C:0D40H         PUBLIC        _STRLEN
   -------         ENDMOD        STRLEN
 
   -------         MODULE        ?C?CLDPTR
-  C:0B2DH         PUBLIC        ?C?CLDPTR
+  C:0BD2H         PUBLIC        ?C?CLDPTR
   -------         ENDMOD        ?C?CLDPTR
 
   -------         MODULE        ?C?UIDIV
-  C:0B46H         PUBLIC        ?C?UIDIV
+  C:0BEBH         PUBLIC        ?C?UIDIV
   -------         ENDMOD        ?C?UIDIV
 
-Program Size: data=9.0 xdata=45 code=3251
+Program Size: data=9.0 xdata=50 code=3413
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

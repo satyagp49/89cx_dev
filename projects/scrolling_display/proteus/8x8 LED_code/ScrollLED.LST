@@ -1,4 +1,4 @@
-C51 COMPILER V9.02   SCROLLLED                                                             11/22/2016 22:19:58 PAGE 1   
+C51 COMPILER V9.02   SCROLLLED                                                             11/23/2016 15:15:24 PAGE 1   
 
 
 C51 COMPILER V9.02, COMPILATION OF MODULE SCROLLLED
@@ -24,12 +24,10 @@ line level    source
   15   2              }
   16   1      }
   17           
-  18          void send_data(LED_MEM_REPLICA temp){
-*** ERROR C141 IN LINE 18 OF SCROLLLED.C: syntax error near 'temp', expected ')'
+  18          void send_data(DISPLAY_WIDTH temp){
   19   1       unsigned int t, Flag;
-  20   1        for (t=0; t<LED_DISPLAY_ROW_SIZE; t++){
-*** ERROR C202 IN LINE 20 OF SCROLLLED.C: 'LED_DISPLAY_ROW_SIZE': undefined identifier
-  21   2         Flag = ((temp.row >> t) & 0x01);
+  20   1        for (t=0; t<LED_DISPLAY_WIDTH; t++){
+  21   2         Flag = ((temp.width >> t) & 0x01);
   22   2         if(Flag==0) Serial_Data = 0;
   23   2         else Serial_Data = 1;
   24   2         SH_Clk = 1;
@@ -40,46 +38,74 @@ line level    source
   29   1        ST_Clk = 0;  
   30   1      }
   31          
-  32          unsigned short int DisplayBuffer [LED_DISPLAY_DIGITS][LED_DISPLAY_HIEGHT] = {{0x00}};
-  33          unsigned int speed;
-  34          short  l, k, m, ShiftAmount, scroll, temp, shift_step=1, StringLength;
-  35          char message[]="ABCD123";
-  36          char index;
-  37          void main() {
-  38   1          unsigned char select_line = 0x00, count;
-  39   1          StringLength = strlen(message) ;
-  40   1          do {
-  41   2              for (k=0; k<StringLength; k++){
-  42   3                              for (scroll=0; scroll<(LED_DISPLAY_WIDTH/shift_step); scroll++) {
-  43   4                                      for (ShiftAmount=0; ShiftAmount<LED_DISPLAY_HIEGHT; ShiftAmount++){
-  44   5                                              index = message[k];
-  45   5                          for (l = 0x00; l < LED_DISPLAY_DIGITS; l ++) {
-  46   6                              for (m = 0x00; m < LED_DISPLAY_HIEGHT; m ++) {
-  47   7                                  DisplayBuffer [l][m] >>= 
-  48   7                              }                                   
-*** ERROR C141 IN LINE 48 OF SCROLLLED.C: syntax error near '}'
-  49   6                          }
-  50   5                                              temp = CharData[index][ShiftAmount];
-  51   5                          DisplayBuffer[ShiftAmount] = (DisplayBuffer[ShiftAmount] >> shift_step) | (temp << ((L
-             -ED_DISPLAY_ROW_SIZE -1) - (scroll*shift_step)));
-C51 COMPILER V9.02   SCROLLLED                                                             11/22/2016 22:19:58 PAGE 2   
+  32          code unsigned char DisplayRAM [LED_RAM_SIZE] = {0x00};
+  33          
+  34          DISPLAY_WIDTH DisplayBuffer [LED_DISPLAY_HIEGHT] [LED_DISPLAY_DIGITS] = {{0x00}};
+  35          unsigned int speed;
+  36          short  l, k, m, ShiftAmount, scroll, temp, shift_step=1, StringLength;
+  37          char message[]="ABCD123";
+  38          char index_data;
+  39          void main() {
+  40   1          unsigned char select_line = 0x00, count, shift;
+  41   1          unsigned int backup;
+  42   1          StringLength = strlen(message) ;
+  43   1          do {
+  44   2              for (k=0; k<StringLength; k++){
+  45   3                  for (scroll=0; scroll<(LED_DISPLAY_WIDTH/shift_step); scroll++) {
+  46   4                      for (ShiftAmount=0; ShiftAmount<LED_DISPLAY_HIEGHT; ShiftAmount++){
+  47   5                          index_data = message[k];
+  48   5                          temp = CharData[index_data][ShiftAmount];
+  49   5                          if (LED_DISPLAY_DIGITS > 1) {
+  50   6                              for (shift = 0x00; shift<shift_step;shift++) {
+  51   7                                  for (count = 0; count < (LED_DISPLAY_DIGITS - 1);count ++) {
+  52   8                                      if (count == 0x00) {
+  53   9                                          DisplayBuffer [ShiftAmount][count].width >>= 1;
+  54   9                                      }
+  55   8                                      else {
+C51 COMPILER V9.02   SCROLLLED                                                             11/23/2016 15:15:24 PAGE 2   
 
-*** ERROR C202 IN LINE 51 OF SCROLLLED.C: 'LED_DISPLAY_ROW_SIZE': undefined identifier
-  52   5                                              //DisplayBuffer[ShiftAmount] = (DisplayBuffer[ShiftAmount] << shift_step) | (temp >> ((8-shift_step)-
-             -scroll*shift_step));
-  53   5                                      }
-  54   4                                      speed = 1;
-  55   4                                      for(l=0; l<speed;l++){
-  56   5                                              for (count=0; count<LED_DISPLAY_HIEGHT; count++) {
-  57   6                                                      send_data(DisplayBuffer[count]);
-  58   6                                                      select_line = (0xFF & ~(0x01 << count));
-  59   6                                                      P3 = select_line;
-  60   6                                                      delay_ms(10);
-  61   6                                              }  // i
-  62   5                                      } // l
-  63   4                              } // scroll
-  64   3                      } // k
-  65   2              } while(1);
-  66   1      }
+  56   9                                          backup = DisplayBuffer [ShiftAmount][count].width & 0x01;
+  57   9                                          DisplayBuffer [ShiftAmount][count].width >>= 1;
+  58   9                                          DisplayBuffer [ShiftAmount][count - 1].width = DisplayBuffer [ShiftAmo
+             -unt][count - 1].width | (backup << 7);            
+  59   9                                      }
+  60   8                                  }
+  61   7                              }
+  62   6                              backup = DisplayBuffer [ShiftAmount][count].width & 0x01;
+  63   6                              DisplayBuffer [ShiftAmount][count - 1].width = DisplayBuffer [ShiftAmount][count -
+             - 1].width | (backup << 7);            
+  64   6                          }
+  65   5                          
+  66   5                          DisplayBuffer [ShiftAmount][LED_DISPLAY_DIGITS - 1].width = (DisplayBuffer[ShiftAmount
+             -][LED_DISPLAY_DIGITS - 1].width >> shift_step) | (temp << ((LED_DISPLAY_WIDTH -1) - (scroll*shift_step)));
+  67   5                     }
+  68   4      
+  69   4                      speed = 2;
+  70   4                      for(l=0; l<speed;l++){
+  71   5                          for (count=0; count<LED_DISPLAY_HIEGHT; count++) {
+  72   6                              for (m = 0x00; m < LED_DISPLAY_DIGITS; m++) {
+  73   7                                  send_data(DisplayBuffer[count][m]);
+  74   7                              }
+  75   6                                              select_line = (0xFF & ~(0x01 << count));
+  76   6                                              P3 = select_line;
+  77   6                                              delay_ms(10);
+  78   6                                              }
+  79   5                                      } // l
+  80   4                              } // scroll
+  81   3                      } // k
+  82   2              } while(1);
+  83   1      }
 
-C51 COMPILATION COMPLETE.  0 WARNING(S),  4 ERROR(S)
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    663    ----
+   CONSTANT SIZE    =   2128    ----
+   XDATA SIZE       =     43       7
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -2,7 +2,7 @@
 #define LED_DISPLAY_WIDTH 8
 #define LED_DISPLAY_HIEGHT 8
 
-#define LED_DISPLAY_DIGITS 1
+#define LED_DISPLAY_DIGITS 5
 #define LED_MAX_DISPLAY_DIGITS 10
 #define LED_RAM_SIZE ((LED_DISPLAY_WIDTH / 8) * LED_DISPLAY_HIEGHT * 10)
 
@@ -10,10 +10,11 @@ typedef struct display_width {
     unsigned int width: LED_DISPLAY_WIDTH;
 }DISPLAY_WIDTH;
 
+
 /* CharData is a two dimensional constant array that holds the 8-bit column values of
    individual rows for ASCII characters that are to be displayed on a 8x8 matrix format.
 */
-code const unsigned short CharData[][8] ={
+const unsigned short CharData[][8] ={
     { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},   // U+0000 (nul)
     { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},   // U+0001
     { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},   // U+0002
