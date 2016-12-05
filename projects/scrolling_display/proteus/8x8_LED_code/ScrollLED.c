@@ -5,8 +5,8 @@
 sbit Serial_Data = P1^1;
 sbit SH_Clk = P1^0;
 sbit ST_Clk = P1^2;
-sbit CD4017_Clk = P3^0;
-sbit CD4017_Rst = P3^1;
+sbit CD4017_Clk = P1^3;
+sbit CD4017_Rst = P1^4;
 
 void delay_ms(unsigned int x)	 // delays x msec (at fosc=11.0592MHz)
 {

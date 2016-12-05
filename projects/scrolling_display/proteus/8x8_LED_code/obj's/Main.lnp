@@ -1,4 +1,0 @@
-".\obj's\STARTUP.obj",
-".\obj's\ScrollLED.obj" 
-TO ".\obj's\Main" 
-PRINT(".\list\Main.m51") RAMSIZE(256) 

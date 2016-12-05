@@ -26,7 +26,7 @@ void delay_ms(unsigned int x)	 // delays x msec (at fosc=11.0592MHz)
 DISPLAY_WIDTH DisplayBuffer [LED_DISPLAY_HIEGHT] [LED_MAX_DISPLAY_DIGITS] = {{0x00}};
 unsigned int speed;
 short  l, k, m, ShiftAmount, scroll, temp, shift_step=1, StringLength;
-char message[]="AB";
+char message[]="ABC123";
 short index_data;
 int main() {
     unsigned char count, shift;
@@ -34,10 +34,10 @@ int main() {
     StringLength = strlen(message) ;
     //do {
         for (k=0; k<StringLength; k++){
-            for (scroll=0; scroll<(LED_DISPLAY_BASE_WIDTH/shift_step); scroll++) {
-                for (ShiftAmount=0; ShiftAmount < (LED_DISPLAY_BASE_HIEGHT * LED_DISPLAY_RATIO_HIEGHT); ShiftAmount += LED_DISPLAY_RATIO_HIEGHT){
+            for (scroll=0; scroll<(LED_DISPLAY_WIDTH/shift_step); scroll++) {
+                for (ShiftAmount=0; ShiftAmount<LED_DISPLAY_HIEGHT; ShiftAmount++){
                     index_data = message[k];
-                    temp = CharData[index_data][(ShiftAmount/LED_DISPLAY_RATIO_HIEGHT)];
+                    temp = CharData[index_data][ShiftAmount];
                     if (LED_DISPLAY_DIGITS > 1) {
                         for (shift = 0x00; shift<shift_step;shift++) {
                             for (count = 0; count < (LED_DISPLAY_DIGITS - 1);count ++) {
@@ -55,11 +55,7 @@ int main() {
                         DisplayBuffer [ShiftAmount][count - 1].width = DisplayBuffer [ShiftAmount][count - 1].width | (backup << 7);
                     }
 
-                    DisplayBuffer [ShiftAmount][LED_DISPLAY_DIGITS - 1].width = (DisplayBuffer[ShiftAmount][LED_DISPLAY_DIGITS - 1].width >> shift_step) | (temp << ((LED_DISPLAY_BASE_WIDTH -1) - (scroll*shift_step)));
-                    
-                    for (count = 0x00; count < LED_DISPLAY_RATIO_HIEGHT; count ++) {
-                        DisplayBuffer [ShiftAmount + count][LED_DISPLAY_DIGITS - 1].width = DisplayBuffer [ShiftAmount][LED_DISPLAY_DIGITS - 1].width;
-                    }
+                    DisplayBuffer [ShiftAmount][LED_DISPLAY_DIGITS - 1].width = (DisplayBuffer[ShiftAmount][LED_DISPLAY_DIGITS - 1].width >> shift_step) | (temp << ((LED_DISPLAY_WIDTH -1) - (scroll*shift_step)));
                }
 
                 speed = 1;
