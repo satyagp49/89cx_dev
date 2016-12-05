@@ -13,12 +13,15 @@ void delay_ms(unsigned int x)	 // delays x msec (at fosc=11.0592MHz)
 
  void send_data(DISPLAY_WIDTH led_msg){
     int count = 0x00;
+    unsigned char ratio_count = 0x00;
     for (count = 0x00; count < LED_DISPLAY_WIDTH; count ++) {
-        if ((led_msg.width >> count) & 0x01) {
-            printf ("1");
-        }
-        else
-            printf ("-");
+        for (ratio_count = 0x00; ratio_count < LED_DISPLAY_RATIO_WIDTH; ratio_count ++) {
+            if ((led_msg.width >> count) & 0x01) {
+                printf ("1");
+            }
+            else
+                printf ("-");
+        }        
     }
     printf ("\t");
 }
@@ -29,7 +32,7 @@ short  l, k, m, ShiftAmount, scroll, temp, shift_step=1, StringLength;
 char message[]="AB";
 short index_data;
 int main() {
-    unsigned char count, shift;
+    unsigned char count, shift, ratio_count = 0x00;
     unsigned int backup;
     StringLength = strlen(message) ;
     //do {
@@ -48,17 +51,23 @@ int main() {
                                     backup = DisplayBuffer [ShiftAmount][count].width & 0x01;
                                     DisplayBuffer [ShiftAmount][count].width >>= 1;
                                     DisplayBuffer [ShiftAmount][count - 1].width = DisplayBuffer [ShiftAmount][count - 1].width | (backup << 7);
+                                    for (ratio_count = 0x00; ratio_count < LED_DISPLAY_RATIO_HIEGHT; ratio_count ++) {
+                                        DisplayBuffer [ShiftAmount + ratio_count][count - 1].width = DisplayBuffer [ShiftAmount][LED_DISPLAY_DIGITS - 1].width;
+                                    }
                                 }
                             }
                         }
                         backup = DisplayBuffer [ShiftAmount][count].width & 0x01;
                         DisplayBuffer [ShiftAmount][count - 1].width = DisplayBuffer [ShiftAmount][count - 1].width | (backup << 7);
+                        for (ratio_count = 0x00; ratio_count < LED_DISPLAY_RATIO_HIEGHT; ratio_count ++) {
+                            DisplayBuffer [ShiftAmount + ratio_count][count - 1].width = DisplayBuffer [ShiftAmount][LED_DISPLAY_DIGITS - 1].width;
+                        }
                     }
-
+                    
                     DisplayBuffer [ShiftAmount][LED_DISPLAY_DIGITS - 1].width = (DisplayBuffer[ShiftAmount][LED_DISPLAY_DIGITS - 1].width >> shift_step) | (temp << ((LED_DISPLAY_BASE_WIDTH -1) - (scroll*shift_step)));
                     
-                    for (count = 0x00; count < LED_DISPLAY_RATIO_HIEGHT; count ++) {
-                        DisplayBuffer [ShiftAmount + count][LED_DISPLAY_DIGITS - 1].width = DisplayBuffer [ShiftAmount][LED_DISPLAY_DIGITS - 1].width;
+                    for (ratio_count = 0x00; ratio_count < LED_DISPLAY_RATIO_HIEGHT; ratio_count ++) {
+                        DisplayBuffer [ShiftAmount + ratio_count][LED_DISPLAY_DIGITS - 1].width = DisplayBuffer [ShiftAmount][LED_DISPLAY_DIGITS - 1].width;
                     }
                }
 
