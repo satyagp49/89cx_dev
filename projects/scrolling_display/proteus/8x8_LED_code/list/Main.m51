@@ -1,16 +1,17 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        11/23/2016  15:15:24  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        12/05/2016  15:29:46  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
-C:\KEIL\C51\BIN\BL51.EXE STARTUP.obj, ScrollLED.obj TO Main RAMSIZE (256)
+C:\KEIL\C51\BIN\BL51.EXE .\obj's\STARTUP.obj, .\obj's\ScrollLED.obj TO .\obj's\Main PRINT (.\list\Main.m51) RAMSIZE (256
+>> )
 
 
 MEMORY MODEL: LARGE
 
 
 INPUT MODULES INCLUDED:
-  STARTUP.obj (?C_STARTUP)
-  ScrollLED.obj (SCROLLLED)
+  .\obj's\STARTUP.obj (?C_STARTUP)
+  .\obj's\ScrollLED.obj (SCROLLLED)
   C:\KEIL\C51\LIB\C51L.LIB (?C_INIT)
   C:\KEIL\C51\LIB\C51L.LIB (?C?COPY)
   C:\KEIL\C51\LIB\C51L.LIB (?C?SIDIV)
@@ -20,7 +21,7 @@ INPUT MODULES INCLUDED:
   C:\KEIL\C51\LIB\C51L.LIB (?C?UIDIV)
 
 
-LINK MAP OF MODULE:  Main (?C_STARTUP)
+LINK MAP OF MODULE:  .\obj's\Main (?C_STARTUP)
 
 
             TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
@@ -36,18 +37,18 @@ LINK MAP OF MODULE:  Main (?C_STARTUP)
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-            CODE    0003H     0850H     UNIT         ?CO?SCROLLLED
-            CODE    0853H     0247H     UNIT         ?PR?MAIN?SCROLLLED
-            CODE    0A9AH     01A6H     UNIT         ?C?LIB_CODE
-            CODE    0C40H     008CH     UNIT         ?C_C51STARTUP
-            CODE    0CCCH     0035H     UNIT         ?PR?SEND_DATA?SCROLLLED
-            CODE    0D01H     0024H     UNIT         ?C_INITSEG
-            CODE    0D25H     001BH     UNIT         ?PR?_DELAY_MS?SCROLLLED
-            CODE    0D40H     0015H     UNIT         ?PR?_STRLEN?STRLEN
+            CODE    0003H     0800H     UNIT         ?CO?SCROLLLED
+            CODE    0803H     0236H     UNIT         ?PR?MAIN?SCROLLLED
+            CODE    0A39H     01A6H     UNIT         ?C?LIB_CODE
+            CODE    0BDFH     008CH     UNIT         ?C_C51STARTUP
+            CODE    0C6BH     0035H     UNIT         ?PR?SEND_DATA?SCROLLLED
+            CODE    0CA0H     0024H     UNIT         ?C_INITSEG
+            CODE    0CC4H     001BH     UNIT         ?PR?_DELAY_MS?SCROLLLED
+            CODE    0CDFH     0015H     UNIT         ?PR?_STRLEN?STRLEN
 
 
 
-OVERLAY MAP OF MODULE:   Main (?C_STARTUP)
+OVERLAY MAP OF MODULE:   .\obj's\Main (?C_STARTUP)
 
 
 SEGMENT                           XDATA_GROUP
@@ -58,10 +59,10 @@ SEGMENT                           XDATA_GROUP
   +--> ?C_INITSEG
 
 ?PR?MAIN?SCROLLLED              002BH    0005H
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/05/2016  15:29:46  PAGE 2
+
+
   +--> ?PR?_STRLEN?STRLEN
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/23/2016  15:15:24  PAGE 2
-
-
   +--> ?CO?SCROLLLED
   +--> ?PR?SEND_DATA?SCROLLLED
   +--> ?PR?_DELAY_MS?SCROLLLED
@@ -70,13 +71,13 @@ SEGMENT                           XDATA_GROUP
 
 
 
-SYMBOL TABLE OF MODULE:  Main (?C_STARTUP)
+SYMBOL TABLE OF MODULE:  .\obj's\Main (?C_STARTUP)
 
   VALUE           TYPE          NAME
   ----------------------------------
 
   -------         MODULE        ?C_STARTUP
-  C:0C40H         SEGMENT       ?C_C51STARTUP
+  C:0BDFH         SEGMENT       ?C_C51STARTUP
   I:0008H         SEGMENT       ?STACK
   C:0000H         PUBLIC        ?C_STARTUP
   D:00E0H         SYMBOL        ACC
@@ -86,7 +87,7 @@ SYMBOL TABLE OF MODULE:  Main (?C_STARTUP)
   N:0000H         SYMBOL        IBPSTACK
   N:0100H         SYMBOL        IBPSTACKTOP
   N:0080H         SYMBOL        IDATALEN
-  C:0C43H         SYMBOL        IDATALOOP
+  C:0BE2H         SYMBOL        IDATALOOP
   N:0000H         SYMBOL        PBPSTACK
   N:0100H         SYMBOL        PBPSTACKTOP
   N:0000H         SYMBOL        PDATALEN
@@ -95,45 +96,46 @@ SYMBOL TABLE OF MODULE:  Main (?C_STARTUP)
   N:0000H         SYMBOL        PPAGEENABLE
   D:00A0H         SYMBOL        PPAGE_SFR
   D:0081H         SYMBOL        SP
-  C:0C40H         SYMBOL        STARTUP1
+  C:0BDFH         SYMBOL        STARTUP1
   N:0000H         SYMBOL        XBPSTACK
   N:0000H         SYMBOL        XBPSTACKTOP
   N:0000H         SYMBOL        XDATALEN
   N:0000H         SYMBOL        XDATASTART
   C:0000H         LINE#         126
-  C:0C40H         LINE#         133
-  C:0C42H         LINE#         134
-  C:0C43H         LINE#         135
-  C:0C44H         LINE#         136
-  C:0C46H         LINE#         185
-  C:0C49H         LINE#         196
+  C:0BDFH         LINE#         133
+  C:0BE1H         LINE#         134
+  C:0BE2H         LINE#         135
+  C:0BE3H         LINE#         136
+  C:0BE5H         LINE#         185
+  C:0BE8H         LINE#         196
   -------         ENDMOD        ?C_STARTUP
 
   -------         MODULE        SCROLLLED
   C:0000H         SYMBOL        _ICE_DUMMY_
-  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
   D:00B0H         PUBLIC        P3
   X:0000H         PUBLIC        scroll
   X:0002H         PUBLIC        speed
-  B:0080H.0       PUBLIC        SH_Clk
+  B:0090H.0       PUBLIC        SH_Clk
   X:0004H         PUBLIC        index_data
-  B:0080H.2       PUBLIC        ST_Clk
-  C:0853H         PUBLIC        main
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/23/2016  15:15:24  PAGE 3
+  B:0090H.2       PUBLIC        ST_Clk
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/05/2016  15:29:46  PAGE 3
 
 
-  C:0CCCH         PUBLIC        send_data
+  C:0803H         PUBLIC        main
+  C:0C6BH         PUBLIC        send_data
   X:0005H         PUBLIC        temp
   X:0007H         PUBLIC        DisplayBuffer
-  C:0803H         PUBLIC        DisplayRAM
   X:0017H         PUBLIC        shift_step
-  B:0080H.1       PUBLIC        Serial_Data
-  C:0D25H         PUBLIC        _delay_ms
+  B:0090H.1       PUBLIC        Serial_Data
+  B:00B0H.0       PUBLIC        CD4017_Clk
+  C:0CC4H         PUBLIC        _delay_ms
   X:0019H         PUBLIC        StringLength
   X:001BH         PUBLIC        message
   X:0023H         PUBLIC        k
   X:0025H         PUBLIC        l
   X:0027H         PUBLIC        m
+  B:00B0H.1       PUBLIC        CD4017_Rst
   X:0029H         PUBLIC        ShiftAmount
   C:0003H         PUBLIC        CharData
   -------         PROC          _DELAY_MS
@@ -141,14 +143,14 @@ SYMBOL TABLE OF MODULE:  Main (?C_STARTUP)
   -------         DO            
   D:0005H         SYMBOL        j
   -------         ENDDO         
-  C:0D25H         LINE#         9
-  C:0D25H         LINE#         10
-  C:0D25H         LINE#         11
-  C:0D25H         LINE#         12
-  C:0D34H         LINE#         13
-  C:0D34H         LINE#         14
-  C:0D3FH         LINE#         15
-  C:0D3FH         LINE#         16
+  C:0CC4H         LINE#         11
+  C:0CC4H         LINE#         12
+  C:0CC4H         LINE#         13
+  C:0CC4H         LINE#         14
+  C:0CD3H         LINE#         15
+  C:0CD3H         LINE#         16
+  C:0CDEH         LINE#         17
+  C:0CDEH         LINE#         18
   -------         ENDPROC       _DELAY_MS
   -------         PROC          SEND_DATA
   X:0030H         SYMBOL        temp
@@ -156,17 +158,17 @@ SYMBOL TABLE OF MODULE:  Main (?C_STARTUP)
   D:0004H         SYMBOL        t
   D:0006H         SYMBOL        Flag
   -------         ENDDO         
-  C:0CCCH         LINE#         18
-  C:0CCCH         LINE#         20
-  C:0CCFH         LINE#         21
-  C:0CE5H         LINE#         22
-  C:0CEBH         LINE#         23
-  C:0CEDH         LINE#         24
-  C:0CEFH         LINE#         25
-  C:0CF1H         LINE#         26
-  C:0CFCH         LINE#         28
-  C:0CFEH         LINE#         29
-  C:0D00H         LINE#         30
+  C:0C6BH         LINE#         20
+  C:0C6BH         LINE#         22
+  C:0C6EH         LINE#         23
+  C:0C84H         LINE#         24
+  C:0C8AH         LINE#         25
+  C:0C8CH         LINE#         26
+  C:0C8EH         LINE#         27
+  C:0C90H         LINE#         28
+  C:0C9BH         LINE#         30
+  C:0C9DH         LINE#         31
+  C:0C9FH         LINE#         32
   -------         ENDPROC       SEND_DATA
   -------         PROC          MAIN
   -------         DO            
@@ -175,66 +177,71 @@ SYMBOL TABLE OF MODULE:  Main (?C_STARTUP)
   X:002DH         SYMBOL        shift
   X:002EH         SYMBOL        backup
   -------         ENDDO         
-  C:0853H         LINE#         39
-  C:0853H         LINE#         40
-  C:0858H         LINE#         42
-  C:0869H         LINE#         43
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/23/2016  15:15:24  PAGE 4
+  C:0803H         LINE#         39
+  C:0803H         LINE#         40
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/05/2016  15:29:46  PAGE 4
 
 
-  C:0869H         LINE#         44
-  C:088BH         LINE#         45
-  C:08B7H         LINE#         46
-  C:08D3H         LINE#         47
-  C:08E9H         LINE#         48
-  C:0920H         LINE#         49
-  C:0922H         LINE#         50
-  C:0922H         LINE#         51
-  C:0922H         LINE#         52
-  C:0922H         LINE#         53
-  C:0922H         LINE#         61
-  C:0926H         LINE#         64
-  C:0926H         LINE#         66
-  C:09A3H         LINE#         67
-  C:09B4H         LINE#         69
-  C:09BDH         LINE#         70
-  C:09DCH         LINE#         71
-  C:09E1H         LINE#         72
-  C:09E8H         LINE#         73
-  C:0A1DH         LINE#         74
-  C:0A3CH         LINE#         75
-  C:0A51H         LINE#         76
-  C:0A53H         LINE#         77
-  C:0A5AH         LINE#         78
-  C:0A67H         LINE#         79
-  C:0A78H         LINE#         80
-  C:0A89H         LINE#         81
+  C:0808H         LINE#         42
+  C:0819H         LINE#         43
+  C:0819H         LINE#         44
+  C:083BH         LINE#         45
+  C:0867H         LINE#         46
+  C:0883H         LINE#         47
+  C:0899H         LINE#         48
+  C:08D0H         LINE#         49
+  C:08D2H         LINE#         50
+  C:08D2H         LINE#         51
+  C:08D2H         LINE#         52
+  C:08D2H         LINE#         53
+  C:08D2H         LINE#         61
+  C:08D6H         LINE#         64
+  C:08D6H         LINE#         66
+  C:0953H         LINE#         67
+  C:0964H         LINE#         69
+  C:096CH         LINE#         82
+  C:098BH         LINE#         83
+  C:0990H         LINE#         84
+  C:0997H         LINE#         85
+  C:09CCH         LINE#         86
+  C:09CEH         LINE#         87
+  C:09D0H         LINE#         88
+  C:09D7H         LINE#         89
+  C:09F6H         LINE#         90
+  C:09F8H         LINE#         91
+  C:09FAH         LINE#         92
+  C:0A06H         LINE#         93
+  C:0A17H         LINE#         96
+  C:0A28H         LINE#         97
   -------         ENDPROC       MAIN
   -------         ENDMOD        SCROLLLED
 
   -------         MODULE        ?C?COPY
-  C:0B6AH         PUBLIC        ?C?COPY
+  C:0B09H         PUBLIC        ?C?COPY
   -------         ENDMOD        ?C?COPY
 
   -------         MODULE        ?C?SIDIV
-  C:0B90H         PUBLIC        ?C?SIDIV
+  C:0B2FH         PUBLIC        ?C?SIDIV
   -------         ENDMOD        ?C?SIDIV
 
   -------         MODULE        ?C?OFFXADD
-  C:0BC6H         PUBLIC        ?C?OFFXADD
+  C:0B65H         PUBLIC        ?C?OFFXADD
   -------         ENDMOD        ?C?OFFXADD
 
   -------         MODULE        STRLEN
-  C:0D40H         PUBLIC        _STRLEN
+  C:0CDFH         PUBLIC        _STRLEN
   -------         ENDMOD        STRLEN
 
   -------         MODULE        ?C?CLDPTR
-  C:0BD2H         PUBLIC        ?C?CLDPTR
+  C:0B71H         PUBLIC        ?C?CLDPTR
   -------         ENDMOD        ?C?CLDPTR
 
   -------         MODULE        ?C?UIDIV
-  C:0BEBH         PUBLIC        ?C?UIDIV
+  C:0B8AH         PUBLIC        ?C?UIDIV
   -------         ENDMOD        ?C?UIDIV
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/05/2016  15:29:46  PAGE 5
 
-Program Size: data=9.0 xdata=50 code=3413
+
+
+Program Size: data=9.0 xdata=50 code=3316
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

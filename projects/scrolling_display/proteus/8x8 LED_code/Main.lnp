@@ -1,4 +1,0 @@
-"STARTUP.obj",
-"ScrollLED.obj" 
-TO "Main" 
-RAMSIZE(256) 

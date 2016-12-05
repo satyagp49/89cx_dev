@@ -2,9 +2,11 @@
 #include <string.h>
 #include <lookup_table.h>
 
- sbit Serial_Data = P0^1;
- sbit SH_Clk = P0^0;
- sbit ST_Clk = P0^2;
+sbit Serial_Data = P1^1;
+sbit SH_Clk = P1^0;
+sbit ST_Clk = P1^2;
+sbit CD4017_Clk = P3^0;
+sbit CD4017_Rst = P3^1;
 
 void delay_ms(unsigned int x)	 // delays x msec (at fosc=11.0592MHz)
 {
@@ -16,20 +18,18 @@ void delay_ms(unsigned int x)	 // delays x msec (at fosc=11.0592MHz)
 }
  
 void send_data(DISPLAY_WIDTH temp){
- unsigned int t, Flag;
-  for (t=0; t<LED_DISPLAY_WIDTH; t++){
-   Flag = ((temp.width >> t) & 0x01);
-   if(Flag==0) Serial_Data = 0;
-   else Serial_Data = 1;
-   SH_Clk = 1;
-   SH_Clk = 0;
-  }
-  // Apply clock on ST_Clk
-  ST_Clk = 1;
-  ST_Clk = 0;  
+    unsigned int t, Flag;
+    for (t=0; t<LED_DISPLAY_WIDTH; t++){
+        Flag = ((temp.width >> t) & 0x01);
+        if(Flag==0) Serial_Data = 0;
+        else Serial_Data = 1;
+        SH_Clk = 1;
+        SH_Clk = 0;
+    }
+    // Apply clock on ST_Clk
+    ST_Clk = 1;
+    ST_Clk = 0;  
 }
-
-code unsigned char DisplayRAM [LED_RAM_SIZE] = {0x00};
 
 DISPLAY_WIDTH DisplayBuffer [LED_DISPLAY_HIEGHT] [LED_DISPLAY_DIGITS] = {{0x00}};
 unsigned int speed;
@@ -67,16 +67,32 @@ void main() {
                }
 
                 speed = 1;
+#if 0                
                 for(l=0; l<speed;l++){
                     for (count=0; count<LED_DISPLAY_HIEGHT; count++) {
                         for (m = 0x00; m < LED_DISPLAY_DIGITS; m++) {
                             send_data(DisplayBuffer[count][m]);
                         }
-	    				select_line = (0xFF & ~(0x01 << count));
-		    			P3 = select_line;
-			       		delay_ms(10);
-					}
-				} // l
+                        select_line = (0xFF & ~(0x01 << count));
+                        P3 = select_line;
+                        delay_ms(10);
+                    }
+                }
+#else                    
+                for(l=0; l<speed;l++){
+                    for (count=0; count<LED_DISPLAY_HIEGHT; count++) {
+                        for (m = 0x00; m < LED_DISPLAY_DIGITS; m++) {
+                            send_data(DisplayBuffer[count][m]);
+                            CD4017_Clk = 1;
+                            CD4017_Clk = 0;
+                            delay_ms(1);
+                        }
+                        CD4017_Rst = 1;
+                        CD4017_Rst = 0;
+                    }
+                }
+#endif
+                        
 			} // scroll
 		} // k
 	} while(1);
