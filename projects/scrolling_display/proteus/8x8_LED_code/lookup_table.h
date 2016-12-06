@@ -1,10 +1,16 @@
 
-#define LED_DISPLAY_WIDTH 8
-#define LED_DISPLAY_HIEGHT 8
+#define LED_DISPLAY_BASE_WIDTH 8
+#define LED_DISPLAY_BASE_HIEGHT 8
 
-#define LED_DISPLAY_DIGITS 1
+#define LED_DISPLAY_WIDTH 8
+#define LED_DISPLAY_HIEGHT 16
+
+#define LED_DISPLAY_RATIO_WIDTH (LED_DISPLAY_WIDTH/ LED_DISPLAY_BASE_WIDTH)
+#define LED_DISPLAY_RATIO_HIEGHT (LED_DISPLAY_HIEGHT/ LED_DISPLAY_BASE_HIEGHT)
+
+#define LED_DISPLAY_DIGITS 4
 #define LED_MAX_DISPLAY_DIGITS 10
-#define LED_RAM_SIZE ((LED_DISPLAY_WIDTH / 8) * LED_DISPLAY_HIEGHT * 10)
+#define LED_RAM_SIZE ((LED_DISPLAY_WIDTH / 8) * (LED_DISPLAY_HIEGHT) * (LED_MAX_DISPLAY_DIGITS))
 
 typedef struct display_width {
     unsigned int width: LED_DISPLAY_WIDTH;
@@ -13,7 +19,11 @@ typedef struct display_width {
 /* CharData is a two dimensional constant array that holds the 8-bit column values of
    individual rows for ASCII characters that are to be displayed on a 8x8 matrix format.
 */
-code const unsigned short CharData[][8] ={
+#if TESTING
+const unsigned short CharData[][8] ={
+#else
+code const unsigned short CharData[][8] ={    
+#endif
     { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},   // U+0000 (nul)
     { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},   // U+0001
     { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},   // U+0002

@@ -88,35 +88,3 @@ int main() {
 
     return 0;
 }
-
-#if 0
-void main() {
-    unsigned char select_line = 0x00, count;
-    StringLength = strlen(message) ;
-//    do {
-        for (k=0; k<StringLength; k++){
-			for (scroll=0; scroll<(8/shift_step); scroll++) {
-				for (ShiftAmount=0; ShiftAmount<8; ShiftAmount++){
-                    index_data = message[k];
-					temp = CharData[index_data][ShiftAmount];
-                    //temp = dummyCharData[ShiftAmount];
-                    DisplayBuffer[ShiftAmount] = (DisplayBuffer[ShiftAmount] >> shift_step) | (temp << (9-scroll*shift_step));
-					//DisplayBuffer[ShiftAmount] = (DisplayBuffer[ShiftAmount] << shift_step) | (temp >> ((8-shift_step)-scroll*shift_step));
-                    send_data(DisplayBuffer[ShiftAmount]);
-                    printf ("\n");
-                    delay_ms(20);
-				}/*
-				speed = 1;
-				for(l=0; l<speed;l++){
-					for (count=0; count<8; count++) {
-						send_data(DisplayBuffer[count]);
-						select_line = (0xFF & ~(0x01 << count));
-						P3 = select_line;
-						delay_ms(20);
-					}  // i
-				} // l*/
-			} // scroll
-		} // k
-//	} while(1);
-}
-#endif
