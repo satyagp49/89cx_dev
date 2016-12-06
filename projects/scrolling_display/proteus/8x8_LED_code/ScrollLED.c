@@ -145,7 +145,7 @@ void main() {
                             send_data(DisplayBuffer[count][m]);
                             CD4017_Clk = 1;
                             CD4017_Clk = 0;
-                            delay_ms(1);
+                            delay_ms(50);
                         }
                         CD4017_Rst = 1;
                         CD4017_Rst = 0;

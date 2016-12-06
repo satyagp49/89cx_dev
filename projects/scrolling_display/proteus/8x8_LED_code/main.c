@@ -1,11 +1,17 @@
 #include <REG51.H>
 
 //LED Blink
-
+#if 0
+sbit DS = P1^1;
+sbit SH_CP = P1^0;
+sbit ST_CP = P1^2;
+#else
 sbit DS = P0^1;
 sbit SH_CP = P0^0;
 sbit ST_CP = P0^2;
-
+#endif
+sbit CD4017_Clk = P1^3;
+sbit CD4017_Rst = P1^4;
 
 void delay_ms(unsigned int x)	 // delays x msec (at fosc=11.0592MHz)
 {
@@ -28,7 +34,7 @@ void display_data(unsigned char temp){
   // Apply clock on ST_Clk
   ST_CP = 1;
   ST_CP = 0;
-  //delay_ms(200);
+  //delay_ms(10);
 }
 void main()
 {   
@@ -39,11 +45,14 @@ void main()
 	{
         for (count = 0x00; count < 8; count ++) {		
             display_data (ascii_data [count]);
+            CD4017_Clk = 1;
+            CD4017_Clk = 0;
             select_line = (0xFF & ~(0x01 << count));
             P3 = select_line;
             delay_ms(10);
         }
-
+        CD4017_Rst = 1;
+        CD4017_Rst = 0;
 	} 
      //test counter
     /*RESET_LINE = 1;
