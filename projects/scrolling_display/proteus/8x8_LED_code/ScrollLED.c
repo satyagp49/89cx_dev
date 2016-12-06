@@ -30,21 +30,22 @@ void delay_ms(unsigned int x)	 // delays x msec (at fosc=11.0592MHz)
 #if TESTING
 void send_data(DISPLAY_WIDTH led_msg){
     unsigned char count = 0x00, ratio_count = 0x00;
-    for (count = 0x00; count < LED_DISPLAY_WIDTH; count ++) {
+    for (count = 0x00; count < LED_DISPLAY_BASE_WIDTH; count ++) {
         for (ratio_count = 0x00; ratio_count < LED_DISPLAY_RATIO_WIDTH; ratio_count ++) {
             if ((led_msg.width >> count) & 0x01) {
                 printf ("1");
             }
-            else
+            else {
                 printf ("-");
-        }        
+            }
+        }
     }
     printf ("\t");
 }
 #else
 void send_data(DISPLAY_WIDTH temp){
     unsigned char t, Flag, ratio_count;
-    for (t=0; t<LED_DISPLAY_WIDTH; t++){
+    for (t=0; t<LED_DISPLAY_BASE_WIDTH; t++){
         for (ratio_count = 0x00; ratio_count < LED_DISPLAY_RATIO_WIDTH; ratio_count ++) {
             Flag = ((temp.width >> t) & 0x01);
             if(Flag==0) Serial_Data = 0;
@@ -85,7 +86,7 @@ void main() {
                                 else {
                                     backup = DisplayBuffer [ShiftAmount][count].width & 0x01;
                                     DisplayBuffer [ShiftAmount][count].width >>= 1;
-                                    DisplayBuffer [ShiftAmount][count - 1].width = DisplayBuffer [ShiftAmount][count - 1].width | (backup << 7);
+                                    DisplayBuffer [ShiftAmount][count - 1].width = DisplayBuffer [ShiftAmount][count - 1].width | (backup << (LED_DISPLAY_BASE_WIDTH - 1));
                                     for (ratio_count = 0x01; ratio_count < LED_DISPLAY_RATIO_HIEGHT; ratio_count ++) {
                                         DisplayBuffer [ShiftAmount + ratio_count][count - 1].width = DisplayBuffer [ShiftAmount][count - 1].width;
                                     }
@@ -93,7 +94,7 @@ void main() {
                             }
                         }
                         backup = DisplayBuffer [ShiftAmount][count].width & 0x01;
-                        DisplayBuffer [ShiftAmount][count - 1].width = DisplayBuffer [ShiftAmount][count - 1].width | (backup << 7);
+                        DisplayBuffer [ShiftAmount][count - 1].width = DisplayBuffer [ShiftAmount][count - 1].width | (backup << (LED_DISPLAY_BASE_WIDTH - 1));
                         for (ratio_count = 0x01; ratio_count < LED_DISPLAY_RATIO_HIEGHT; ratio_count ++) {
                             DisplayBuffer [ShiftAmount + ratio_count][count - 1].width = DisplayBuffer [ShiftAmount][count - 1].width;
                         }
@@ -117,7 +118,7 @@ void main() {
                         printf ("\n");
                         delay_ms(1);
                     }
-                    printf ("==============================================================================\n");
+                    printf ("1234567812345678==============================================================================\n");
                 } // l                
 #else 
 #if 0                

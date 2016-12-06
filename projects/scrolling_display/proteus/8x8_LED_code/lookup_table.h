@@ -1,19 +1,19 @@
 
+// these can be modified at any time
+#define LED_DISPLAY_WIDTH 16
+#define LED_DISPLAY_HIEGHT 16
+#define LED_DISPLAY_DIGITS 5
+#define LED_MAX_DISPLAY_DIGITS 10
+
+
+// On these modification we need to verify logic
 #define LED_DISPLAY_BASE_WIDTH 8
 #define LED_DISPLAY_BASE_HIEGHT 8
-
-#define LED_DISPLAY_WIDTH 8
-#define LED_DISPLAY_HIEGHT 16
-
 #define LED_DISPLAY_RATIO_WIDTH (LED_DISPLAY_WIDTH/ LED_DISPLAY_BASE_WIDTH)
 #define LED_DISPLAY_RATIO_HIEGHT (LED_DISPLAY_HIEGHT/ LED_DISPLAY_BASE_HIEGHT)
 
-#define LED_DISPLAY_DIGITS 4
-#define LED_MAX_DISPLAY_DIGITS 10
-#define LED_RAM_SIZE ((LED_DISPLAY_WIDTH / 8) * (LED_DISPLAY_HIEGHT) * (LED_MAX_DISPLAY_DIGITS))
-
 typedef struct display_width {
-    unsigned int width: LED_DISPLAY_WIDTH;
+    unsigned int width: LED_DISPLAY_BASE_WIDTH;
 }DISPLAY_WIDTH;
 
 /* CharData is a two dimensional constant array that holds the 8-bit column values of
