@@ -12,14 +12,14 @@
       <ToolsetName>MCS-51</ToolsetName>
       <TargetOption>
         <TargetCommonOption>
-          <Device>P89V51RD2</Device>
-          <Vendor>NXP (founded by Philips)</Vendor>
-          <Cpu>IRAM(0-0xFF) IROM(0-0xFFFF) CLOCK(40000000)</Cpu>
+          <Device>SST89x516RD2</Device>
+          <Vendor>SST</Vendor>
+          <Cpu>IRAM(0-0xFF) XRAM(0-0x2FF) IROM(0-0xFFFF) CLOCK(40000000)</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile>"LIB\STARTUP.A51" ("Standard 8051 Startup Code")</StartupFile>
           <FlashDriverDll></FlashDriverDll>
-          <DeviceId>3711</DeviceId>
-          <RegisterFile>P89V51Rx2.H</RegisterFile>
+          <DeviceId>3718</DeviceId>
+          <RegisterFile>SST89X5XXRD2.H</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -33,8 +33,8 @@
           <BinPath></BinPath>
           <IncludePath></IncludePath>
           <LibPath></LibPath>
-          <RegisterFilePath>Philips\</RegisterFilePath>
-          <DBRegisterFilePath>Philips\</DBRegisterFilePath>
+          <RegisterFilePath>SST\</RegisterFilePath>
+          <DBRegisterFilePath>SST\</DBRegisterFilePath>
           <TargetStatus>
             <Error>0</Error>
             <ExitCodeStop>0</ExitCodeStop>
@@ -100,11 +100,11 @@
           <SimDllName>S8051.DLL</SimDllName>
           <SimDllArguments></SimDllArguments>
           <SimDlgDll>DP51.DLL</SimDlgDll>
-          <SimDlgDllArguments>-pS554R</SimDlgDllArguments>
+          <SimDlgDllArguments>-pSST5X</SimDlgDllArguments>
           <TargetDllName>S8051.DLL</TargetDllName>
           <TargetDllArguments></TargetDllArguments>
           <TargetDlgDll>TP51.DLL</TargetDlgDll>
-          <TargetDlgDllArguments>-pS554R</TargetDlgDllArguments>
+          <TargetDlgDllArguments>-pSST5X</TargetDlgDllArguments>
         </DllOption>
         <DebugOption>
           <OPTHX>
@@ -178,7 +178,7 @@
             <UseMultipleDPTR>0</UseMultipleDPTR>
             <UseOnchipXram>0</UseOnchipXram>
             <HadIRAM>1</HadIRAM>
-            <HadXRAM>0</HadXRAM>
+            <HadXRAM>1</HadXRAM>
             <HadIROM>1</HadIROM>
             <Moda2>0</Moda2>
             <Moddp2>0</Moddp2>
@@ -263,7 +263,7 @@
               <XRA>
                 <Type>0</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
+                <Size>0x300</Size>
               </XRA>
               <XRA512>
                 <Type>0</Type>

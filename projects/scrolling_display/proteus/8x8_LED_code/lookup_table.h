@@ -2,7 +2,7 @@
 // these can be modified at any time
 #define LED_DISPLAY_WIDTH 8
 #define LED_DISPLAY_HIEGHT 8
-#define LED_DISPLAY_DIGITS 3
+#define LED_DISPLAY_DIGITS 6
 #define LED_MAX_DISPLAY_DIGITS 10
 
 
