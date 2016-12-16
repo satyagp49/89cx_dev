@@ -1,7 +1,7 @@
 #include <REG51.H>
 
 //LED Blink
-#if 0
+#if 1
 sbit DS = P1^1;
 sbit SH_CP = P1^0;
 sbit ST_CP = P1^2;
@@ -47,9 +47,7 @@ void main()
             display_data (ascii_data [count]);
             CD4017_Clk = 1;
             CD4017_Clk = 0;
-            select_line = (0xFF & ~(0x01 << count));
-            P3 = select_line;
-            delay_ms(10);
+            //delay_ms(1);
         }
         CD4017_Rst = 1;
         CD4017_Rst = 0;

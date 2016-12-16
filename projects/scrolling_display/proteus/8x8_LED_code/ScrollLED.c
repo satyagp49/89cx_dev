@@ -63,7 +63,7 @@ void send_data(DISPLAY_WIDTH temp){
 DISPLAY_WIDTH DisplayBuffer [LED_DISPLAY_BASE_HIEGHT] [LED_DISPLAY_DIGITS] = {{0x00}};
 unsigned int speed;
 short  l, k, m, ShiftAmount, scroll, temp, shift_step=1, StringLength;
-char message[]="ABCD123";
+char message[]="A";
 char index_data;
 void main() {
     unsigned char select_line = 0x00, count, shift, ratio_count = 0x00;
@@ -87,28 +87,16 @@ void main() {
                                     backup = DisplayBuffer [ShiftAmount][count].width & 0x01;
                                     DisplayBuffer [ShiftAmount][count].width >>= 1;
                                     DisplayBuffer [ShiftAmount][count - 1].width = DisplayBuffer [ShiftAmount][count - 1].width | (backup << (LED_DISPLAY_BASE_WIDTH - 1));
-//                                     for (ratio_count = 0x01; ratio_count < LED_DISPLAY_RATIO_HIEGHT; ratio_count ++) {
-//                                         DisplayBuffer [ShiftAmount + ratio_count][count - 1].width = DisplayBuffer [ShiftAmount][count - 1].width;
-//                                     }
                                 }
                             }
                         }
                         backup = DisplayBuffer [ShiftAmount][count].width & 0x01;
                         DisplayBuffer [ShiftAmount][count - 1].width = DisplayBuffer [ShiftAmount][count - 1].width | (backup << (LED_DISPLAY_BASE_WIDTH - 1));
-//                         for (ratio_count = 0x01; ratio_count < LED_DISPLAY_RATIO_HIEGHT; ratio_count ++) {
-//                             DisplayBuffer [ShiftAmount + ratio_count][count - 1].width = DisplayBuffer [ShiftAmount][count - 1].width;
-//                         }
-                    }
-                    
+                    }                    
                     DisplayBuffer [ShiftAmount][LED_DISPLAY_DIGITS - 1].width = (DisplayBuffer[ShiftAmount][LED_DISPLAY_DIGITS - 1].width >> shift_step) | (temp << ((LED_DISPLAY_BASE_WIDTH -1) - (scroll*shift_step)));
-                    
-//                     for (ratio_count = 0x01; ratio_count < LED_DISPLAY_RATIO_HIEGHT; ratio_count ++) {
-//                         DisplayBuffer [ShiftAmount + ratio_count][LED_DISPLAY_DIGITS - 1].width = DisplayBuffer [ShiftAmount][LED_DISPLAY_DIGITS - 1].width;
-//                     }
                 }
                 
-                speed = 1;
-                
+                speed = 2;
 #if TESTING 
                 for(l=0; l<speed;l++){
                     for (count=0; count<LED_DISPLAY_BASE_HIEGHT; count++) {
@@ -123,39 +111,23 @@ void main() {
                     printf ("1234567812345678==============================================================================\n");
                 } // l                
 #else 
-#if 0                
-            for(l=0; l<speed;l++){
-                for (count=0; count<LED_DISPLAY_BASE_HIEGHT; count++) {
-                    for (ratio_count = 0x00; ratio_count < LED_DISPLAY_RATIO_HIEGHT; ratio_count ++) {
-                        for (m = 0x00; m < LED_DISPLAY_DIGITS; m++) {
-                            send_data(DisplayBuffer[count][m]);
+                for(l=0; l<speed;l++){
+                    for (count=0; count<LED_DISPLAY_BASE_HIEGHT; count++) {
+                        for (ratio_count = 0x00; ratio_count < LED_DISPLAY_RATIO_HIEGHT; ratio_count ++) {
+                            for (m = 0x00; m < LED_DISPLAY_DIGITS; m++) {
+                                CD4017_Clk = 1;
+                                CD4017_Clk = 0;
+                                select_line = (0xFF & ~(0x01 << count));
+                                P3 = select_line;                            
+                                send_data(DisplayBuffer[count][m]);
+                                delay_ms(5);
+                            }
+                            CD4017_Rst = 1;
+                            CD4017_Rst = 0;
                         }
-                    select_line = (0xFF & ~(0x01 << count));
-                    P3 = select_line;
-                    delay_ms(10);
                     }
-                }
-            } // l                
-            
-#else                    
-            for(l=0; l<speed;l++){
-                for (count=0; count<LED_DISPLAY_BASE_HIEGHT; count++) {
-                    for (ratio_count = 0x00; ratio_count < LED_DISPLAY_RATIO_HIEGHT; ratio_count ++) {
-                        for (m = 0x00; m < LED_DISPLAY_DIGITS; m++) {
-                            send_data(DisplayBuffer[count][m]);
-                            CD4017_Clk = 1;
-                            CD4017_Clk = 0;
-                            delay_ms(50);
-                        }
-                        CD4017_Rst = 1;
-                        CD4017_Rst = 0;
-                    }
-                }
-            } // l                
-            
+                } // l                
 #endif
-#endif
-            
             } // scroll
         } // k
         
